@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Watches — L'Moni Maison de Mode</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&amp;family=Raleway:wght@200;300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<style>
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    :root { --noir:#0c0b0b; --cream:#f7f2ea; --gold:#b8965a; --gold-light:#d4b483; --muted:#5c5147; --white:#fdfaf6; --dark2:#0f0e0d; --dark3:#141210; }
+    html { scroll-behavior:smooth; }
+    body { background:var(--noir); color:var(--cream); font-family:'Raleway',sans-serif; font-weight:300; overflow-x:hidden; cursor:none; }
+
+    .cursor { width:10px; height:10px; background:var(--gold); border-radius:50%; position:fixed; pointer-events:none; z-index:9999; transform:translate(-50%,-50%); transition:width .3s,height .3s; }
+    .cursor-ring { width:36px; height:36px; border:1px solid var(--gold-light); border-radius:50%; position:fixed; pointer-events:none; z-index:9998; transform:translate(-50%,-50%); transition:width .3s,height .3s,opacity .3s; opacity:.6; }
+
+    .marquee-bar { background:var(--gold); color:var(--noir); font-size:.65rem; letter-spacing:.3em; text-transform:uppercase; padding:8px 0; overflow:hidden; white-space:nowrap; }
+    .marquee-track { display:inline-block; animation:marquee 32s linear infinite; }
+    .marquee-track span { margin:0 3rem; }
+    @keyframes marquee { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+    nav { position:sticky; top:0; z-index:100; display:flex; align-items:center; justify-content:space-between; padding:1.2rem 4rem; background:rgba(12,11,11,.95); backdrop-filter:blur(14px); border-bottom:1px solid rgba(184,150,90,.18); }
+    .nav-links { display:flex; gap:2.4rem; list-style:none; }
+    .nav-links a { color:var(--cream); text-decoration:none; font-size:.72rem; letter-spacing:.2em; text-transform:uppercase; font-weight:400; position:relative; padding-bottom:2px; transition:color .3s; }
+    .nav-links a::after { content:''; position:absolute; bottom:0; left:0; width:0; height:1px; background:var(--gold); transition:width .35s; }
+    .nav-links a:hover { color:var(--gold-light); }
+    .nav-links a:hover::after { width:100%; }
+    .nav-logo { text-align:center; flex:1; }
+    .nav-logo .logotype { font-family:'Cormorant Garamond',serif; font-size:1.55rem; font-weight:300; letter-spacing:.12em; color:var(--white); }
+    .nav-logo .logotype em { font-style:italic; color:var(--gold); }
+    .nav-logo .sub { font-size:.55rem; letter-spacing:.45em; text-transform:uppercase; color:var(--muted); margin-top:1px; }
+    .nav-actions { display:flex; gap:1.5rem; align-items:center; }
+    .nav-icon { font-size:1rem; color:var(--cream); cursor:none; transition:color .3s; text-decoration:none; }
+    .nav-icon:hover { color:var(--gold); }
+
+    /* ── HERO — full dark, precision feel ── */
+    .page-hero {
+      position:relative;
+      height:100vh;
+      max-height:700px;
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      overflow:hidden;
+    }
+    .hero-visual {
+      position:relative;
+      overflow:hidden;
+    }
+    .hero-visual img {
+      width:100%; height:100%;
+      object-fit:cover;
+      object-position:center;
+      filter:brightness(.28) saturate(.5) contrast(1.1);
+      transition:transform 10s ease;
+    }
+    .page-hero:hover .hero-visual img { transform:scale(1.03); }
+    .hero-visual::after {
+      content:'';
+      position:absolute; inset:0;
+      background:linear-gradient(to right, transparent 60%, var(--noir) 100%);
+    }
+    .hero-text-panel {
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      padding:5rem 5rem 5rem 4rem;
+      position:relative;
+      z-index:2;
+    }
+    /* Ticking seconds animation */
+    .hero-clock {
+      font-family:'Cormorant Garamond',serif;
+      font-size:.65rem;
+      letter-spacing:.5em;
+      color:var(--gold);
+      text-transform:uppercase;
+      margin-bottom:2.5rem;
+      display:flex;
+      align-items:center;
+      gap:1rem;
+    }
+    .hero-clock::before { content:''; width:40px; height:1px; background:var(--gold); }
+    .clock-digits { font-variant-numeric:tabular-nums; }
+    .hero-text-panel h1 {
+      font-family:'Cormorant Garamond',serif;
+      font-size:clamp(3rem,5vw,4.8rem);
+      font-weight:300;
+      line-height:1.05;
+      color:var(--white);
+      margin-bottom:1.5rem;
+    }
+    .hero-text-panel h1 em { font-style:italic; color:var(--gold-light); }
+    .hero-text-panel p {
+      font-size:.8rem;
+      line-height:2;
+      color:rgba(247,242,234,.5);
+      max-width:380px;
+      margin-bottom:3rem;
+    }
+    .btn-primary { display:inline-flex; align-items:center; gap:1rem; background:var(--gold); color:var(--noir); text-decoration:none; font-size:.68rem; letter-spacing:.3em; text-transform:uppercase; font-weight:600; padding:1rem 2.2rem; transition:background .3s,gap .3s; align-self:flex-start; }
+    .btn-primary:hover { background:var(--gold-light); gap:1.5rem; }
+    .breadcrumb { font-size:.62rem; letter-spacing:.3em; text-transform:uppercase; color:var(--muted); display:flex; align-items:center; gap:.7rem; margin-bottom:1.5rem; }
+    .breadcrumb a { color:var(--muted); text-decoration:none; transition:color .3s; }
+    .breadcrumb a:hover,.breadcrumb span.active { color:var(--gold); }
+
+    /* ── COLLECTION STRIP — 3 hero watches ── */
+    .collection-strip {
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:2px;
+      background:rgba(184,150,90,.07);
+    }
+    .collection-card {
+      position:relative;
+      overflow:hidden;
+      aspect-ratio:2/3;
+      cursor:none;
+    }
+    .collection-card img {
+      width:100%; height:100%;
+      object-fit:cover;
+      object-position:center;
+      filter:brightness(.48) saturate(.65);
+      transition:transform .7s,filter .7s;
+    }
+    .collection-card:hover img { transform:scale(1.07); filter:brightness(.3) saturate(.5); }
+    .collection-overlay {
+      position:absolute; inset:0;
+      display:flex; flex-direction:column;
+      justify-content:flex-end;
+      padding:2.5rem;
+      background:linear-gradient(to top, rgba(12,11,11,.92) 0%, transparent 55%);
+    }
+    .collection-tag { font-size:.52rem; letter-spacing:.28em; text-transform:uppercase; background:var(--gold); color:var(--noir); padding:.2rem .6rem; margin-bottom:.7rem; display:inline-block; font-weight:600; }
+    .collection-name { font-family:'Cormorant Garamond',serif; font-size:1.8rem; font-weight:300; color:var(--white); margin-bottom:.35rem; }
+    .collection-desc { font-size:.6rem; letter-spacing:.2em; text-transform:uppercase; color:var(--gold-light); }
+    .collection-arrow { position:absolute; top:1.2rem; right:1.2rem; width:38px; height:38px; border:1px solid rgba(247,242,234,.2); display:flex; align-items:center; justify-content:center; color:var(--cream); opacity:0; transform:translateY(5px); transition:opacity .3s,transform .3s; }
+    .collection-card:hover .collection-arrow { opacity:1; transform:translateY(0); }
+
+    /* ── FILTER BAR ── */
+    .filter-bar { background:var(--dark2); border-top:1px solid rgba(184,150,90,.12); border-bottom:1px solid rgba(184,150,90,.12); padding:1.2rem 4rem; display:flex; align-items:center; justify-content:space-between; gap:1rem; }
+    .filter-pills { display:flex; gap:.5rem; flex-wrap:wrap; }
+    .pill { background:transparent; border:1px solid rgba(184,150,90,.2); color:var(--muted); padding:.4rem 1rem; font-family:'Raleway',sans-serif; font-size:.6rem; letter-spacing:.2em; text-transform:uppercase; cursor:none; transition:all .3s; white-space:nowrap; }
+    .pill:hover,.pill.active { background:var(--gold); color:var(--noir); border-color:var(--gold); }
+    .sort-select { background:transparent; border:1px solid rgba(184,150,90,.22); color:var(--cream); padding:.42rem 1rem; font-family:'Raleway',sans-serif; font-size:.62rem; cursor:none; outline:none; flex-shrink:0; }
+    .sort-select option { background:var(--dark3); }
+
+    /* ── SHOP LAYOUT ── */
+    .shop-layout { display:grid; grid-template-columns:220px 1fr; }
+
+    .sidebar { background:var(--dark3); border-right:1px solid rgba(184,150,90,.1); padding:2.5rem 1.8rem; position:sticky; top:67px; height:fit-content; }
+    .sidebar-section { margin-bottom:2.2rem; }
+    .sidebar-title { font-size:.58rem; letter-spacing:.4em; text-transform:uppercase; color:var(--gold); margin-bottom:1rem; }
+    .sidebar-divider { border:none; border-top:1px solid rgba(184,150,90,.1); margin-bottom:2.2rem; }
+    .filter-option { display:flex; align-items:center; gap:.8rem; margin-bottom:.85rem; cursor:none; }
+    .filter-checkbox { width:14px; height:14px; border:1px solid rgba(184,150,90,.35); appearance:none; cursor:none; position:relative; flex-shrink:0; transition:background .3s; }
+    .filter-checkbox:checked { background:var(--gold); border-color:var(--gold); }
+    .filter-checkbox:checked::after { content:'✓'; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); color:var(--noir); font-size:.55rem; font-weight:700; }
+    .filter-label { font-size:.7rem; color:rgba(247,242,234,.55); transition:color .3s; }
+    .filter-option:hover .filter-label { color:var(--cream); }
+    .filter-count { margin-left:auto; font-size:.58rem; color:var(--muted); }
+    .price-range { display:flex; justify-content:space-between; font-size:.65rem; color:var(--muted); margin-bottom:.7rem; }
+    .range-input { width:100%; appearance:none; height:2px; background:linear-gradient(to right,var(--gold) 55%,rgba(184,150,90,.2) 55%); outline:none; cursor:none; }
+    .range-input::-webkit-slider-thumb { appearance:none; width:13px; height:13px; background:var(--gold); border-radius:50%; cursor:none; }
+    .strap-pills { display:flex; flex-direction:column; gap:.5rem; }
+    .strap-pill { background:transparent; border:1px solid rgba(184,150,90,.15); color:var(--muted); padding:.38rem .8rem; font-family:'Raleway',sans-serif; font-size:.6rem; letter-spacing:.15em; text-transform:uppercase; cursor:none; transition:all .3s; text-align:left; }
+    .strap-pill:hover,.strap-pill.active { border-color:var(--gold); color:var(--gold-light); background:rgba(184,150,90,.06); }
+    .color-swatches { display:flex; flex-wrap:wrap; gap:.45rem; }
+    .swatch { width:20px; height:20px; border-radius:50%; border:2px solid transparent; cursor:none; transition:border-color .3s,transform .3s; }
+    .swatch:hover,.swatch.active { border-color:var(--gold); transform:scale(1.15); }
+    .clear-btn { width:100%; background:transparent; border:1px solid rgba(184,150,90,.18); color:var(--muted); padding:.55rem; font-family:'Raleway',sans-serif; font-size:.58rem; letter-spacing:.22em; text-transform:uppercase; cursor:none; transition:all .3s; }
+    .clear-btn:hover { border-color:var(--gold); color:var(--gold); }
+
+    /* ── PRODUCTS ── */
+    .product-area { padding:2.5rem 3rem; }
+    .results-bar { display:flex; justify-content:space-between; margin-bottom:2rem; padding-bottom:1rem; border-bottom:1px solid rgba(184,150,90,.1); }
+    .results-bar span { font-size:.7rem; color:var(--muted); }
+    .results-bar strong { color:var(--gold-light); }
+    .products-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1.6rem; }
+
+    .product-card { position:relative; cursor:none; }
+    .product-img { position:relative; overflow:hidden; aspect-ratio:1/1; background:var(--dark3); margin-bottom:.9rem; }
+    .product-img img { width:100%; height:100%; object-fit:cover; object-position:center; transition:transform .65s ease; filter:brightness(.88); }
+    .product-card:hover .product-img img { transform:scale(1.07); }
+    .product-badge { position:absolute; top:.9rem; left:.9rem; font-size:.5rem; letter-spacing:.2em; text-transform:uppercase; padding:.25rem .65rem; font-weight:600; z-index:2; }
+    .badge-new { background:var(--gold); color:var(--noir); }
+    .badge-sale { background:#7a3030; color:var(--cream); }
+    .badge-hot { background:transparent; color:var(--gold); border:1px solid var(--gold); }
+    .badge-ltd { background:var(--dark3); color:var(--gold-light); border:1px solid rgba(184,150,90,.4); }
+    .wishlist-btn { position:absolute; top:.9rem; right:.9rem; width:32px; height:32px; background:rgba(12,11,11,.65); backdrop-filter:blur(6px); border:1px solid rgba(184,150,90,.2); color:var(--cream); font-size:.8rem; display:flex; align-items:center; justify-content:center; cursor:none; opacity:0; transition:opacity .3s,color .3s; z-index:2; }
+    .product-card:hover .wishlist-btn { opacity:1; }
+    .wishlist-btn:hover { color:var(--gold); border-color:var(--gold); }
+    .product-actions { position:absolute; bottom:0; left:0; right:0; display:flex; transform:translateY(100%); transition:transform .35s ease; z-index:2; }
+    .product-card:hover .product-actions { transform:translateY(0); }
+    .product-actions button { flex:1; background:rgba(12,11,11,.9); backdrop-filter:blur(8px); color:var(--cream); border:none; border-top:1px solid rgba(184,150,90,.2); padding:.8rem .4rem; font-family:'Raleway',sans-serif; font-size:.57rem; letter-spacing:.18em; text-transform:uppercase; cursor:none; transition:background .3s,color .3s; }
+    .product-actions button:first-child { border-right:1px solid rgba(184,150,90,.15); }
+    .product-actions button:hover { background:var(--gold); color:var(--noir); }
+    .product-info { padding:0 .15rem; }
+    .product-category { font-size:.57rem; letter-spacing:.28em; text-transform:uppercase; color:var(--muted); margin-bottom:.3rem; }
+    .product-name { font-family:'Cormorant Garamond',serif; font-size:1.05rem; font-weight:400; color:var(--cream); margin-bottom:.35rem; }
+    .product-price { font-size:.72rem; letter-spacing:.1em; color:var(--gold); }
+    .product-price .old { text-decoration:line-through; color:var(--muted); margin-left:.4rem; font-size:.65rem; }
+    .product-spec { font-size:.57rem; color:rgba(247,242,234,.32); margin-top:.3rem; letter-spacing:.06em; }
+
+    .editorial-card { grid-column:span 3; position:relative; height:280px; overflow:hidden; display:flex; align-items:center; }
+    .editorial-card img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center 40%; filter:brightness(.22) saturate(.45); transition:transform 7s ease; }
+    .editorial-card:hover img { transform:scale(1.03); }
+    .editorial-card-content { position:relative; z-index:2; padding:3rem; display:flex; justify-content:space-between; align-items:center; width:100%; }
+    .editorial-card-content h3 { font-family:'Cormorant Garamond',serif; font-size:2.4rem; font-weight:300; color:var(--white); line-height:1.1; }
+    .editorial-card-content h3 em { font-style:italic; color:var(--gold-light); }
+    .btn-outline { display:inline-flex; align-items:center; gap:1rem; background:transparent; color:var(--cream); text-decoration:none; font-size:.63rem; letter-spacing:.28em; text-transform:uppercase; padding:.85rem 1.8rem; border:1px solid rgba(247,242,234,.3); transition:border-color .3s,color .3s,gap .3s; }
+    .btn-outline:hover { border-color:var(--gold); color:var(--gold); gap:1.5rem; }
+
+    .pagination { display:flex; justify-content:center; align-items:center; gap:.4rem; padding:3rem 0; }
+    .page-btn { width:36px; height:36px; background:transparent; border:1px solid rgba(184,150,90,.18); color:var(--muted); font-family:'Raleway',sans-serif; font-size:.7rem; cursor:none; transition:all .3s; display:flex; align-items:center; justify-content:center; }
+    .page-btn:hover,.page-btn.active { background:var(--gold); color:var(--noir); border-color:var(--gold); }
+    .page-btn.wide { width:auto; padding:0 1.1rem; font-size:.6rem; letter-spacing:.18em; text-transform:uppercase; }
+
+    /* ── WATCH DETAIL HIGHLIGHT ── */
+    .watch-highlight {
+      background:var(--dark3);
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      min-height:60vh;
+      border-top:1px solid rgba(184,150,90,.1);
+    }
+    .highlight-img { position:relative; overflow:hidden; }
+    .highlight-img img { width:100%; height:100%; object-fit:cover; object-position:center; filter:brightness(.55) saturate(.6); transition:transform 8s ease; }
+    .watch-highlight:hover .highlight-img img { transform:scale(1.04); }
+    .highlight-img::after { content:''; position:absolute; inset:0; background:linear-gradient(to right, transparent 55%, var(--dark3) 100%); }
+    .highlight-text { padding:5rem 4rem; display:flex; flex-direction:column; justify-content:center; }
+    .section-tag { font-size:.62rem; letter-spacing:.45em; text-transform:uppercase; color:var(--gold); display:flex; align-items:center; gap:1rem; margin-bottom:.8rem; }
+    .section-tag::before { content:''; width:30px; height:1px; background:var(--gold); }
+    .section-title { font-family:'Cormorant Garamond',serif; font-size:clamp(2rem,3.5vw,3rem); font-weight:300; color:var(--white); line-height:1.15; margin-bottom:1.5rem; }
+    .section-title em { font-style:italic; color:var(--gold-light); }
+    .highlight-text p { font-size:.78rem; line-height:2; color:rgba(247,242,234,.5); max-width:400px; margin-bottom:1.2rem; }
+    /* Watch features grid */
+    .features-grid { display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; margin:2rem 0; }
+    .feature-item { border-left:1px solid rgba(184,150,90,.25); padding-left:1rem; }
+    .feature-label { font-size:.55rem; letter-spacing:.3em; text-transform:uppercase; color:var(--gold); margin-bottom:.3rem; }
+    .feature-val { font-family:'Cormorant Garamond',serif; font-size:1.1rem; color:var(--cream); }
+
+    /* Footer */
+    footer { background:#080707; padding:5rem 4rem 2rem; border-top:1px solid rgba(184,150,90,.1); }
+    .footer-grid { display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:4rem; margin-bottom:4rem; }
+    .footer-brand .logotype { font-family:'Cormorant Garamond',serif; font-size:1.6rem; font-weight:300; color:var(--white); margin-bottom:1.2rem; display:block; }
+    .footer-brand .logotype em { font-style:italic; color:var(--gold); }
+    .footer-brand p { font-size:.75rem; line-height:1.9; color:var(--muted); max-width:280px; margin-bottom:1.8rem; }
+    .social-links { display:flex; gap:1rem; }
+    .social-link { width:36px; height:36px; border:1px solid rgba(184,150,90,.25); display:flex; align-items:center; justify-content:center; color:var(--muted); text-decoration:none; font-size:.8rem; transition:border-color .3s,color .3s; }
+    .social-link:hover { border-color:var(--gold); color:var(--gold); }
+    .footer-col h4 { font-size:.65rem; letter-spacing:.35em; text-transform:uppercase; color:var(--gold); margin-bottom:1.5rem; }
+    .footer-col ul { list-style:none; }
+    .footer-col ul li { margin-bottom:.8rem; }
+    .footer-col ul li a { font-size:.77rem; color:var(--muted); text-decoration:none; transition:color .3s; }
+    .footer-col ul li a:hover { color:var(--gold-light); }
+    .footer-bottom { border-top:1px solid rgba(184,150,90,.1); padding-top:2rem; display:flex; justify-content:space-between; }
+    .footer-bottom p { font-size:.65rem; color:var(--muted); letter-spacing:.1em; }
+
+    .reveal { opacity:0; transform:translateY(30px); transition:opacity .7s ease,transform .7s ease; }
+    .reveal.visible { opacity:1; transform:translateY(0); }
+    .reveal-left { opacity:0; transform:translateX(-30px); transition:opacity .8s ease,transform .8s ease; }
+    .reveal-left.visible { opacity:1; transform:translateX(0); }
+    .reveal-right { opacity:0; transform:translateX(30px); transition:opacity .8s ease,transform .8s ease; }
+    .reveal-right.visible { opacity:1; transform:translateX(0); }
+
+    @media(max-width:1100px){
+      .page-hero { grid-template-columns:1fr; }
+      .hero-visual { display:none; }
+      .hero-text-panel { padding:4rem 2rem; }
+      .collection-strip { grid-template-columns:1fr 1fr; }
+      .collection-card:last-child { grid-column:span 2; aspect-ratio:16/7; }
+      .shop-layout { grid-template-columns:1fr; }
+      .sidebar { position:static; display:flex; flex-wrap:wrap; gap:1.5rem; }
+      .sidebar-section { min-width:150px; margin-bottom:0; }
+      .products-grid { grid-template-columns:repeat(2,1fr); }
+      .editorial-card { grid-column:span 2; }
+      .watch-highlight { grid-template-columns:1fr; }
+      .highlight-img { height:45vw; }
+      .footer-grid { grid-template-columns:1fr 1fr; gap:2rem; }
+    }
+    @media(max-width:768px){
+      nav { padding:1rem 1.5rem; }
+      .nav-links { display:none; }
+      .collection-strip { grid-template-columns:1fr; }
+      .collection-card:last-child { grid-column:span 1; aspect-ratio:2/3; }
+      .filter-bar { padding:1rem 1.5rem; }
+      .product-area { padding:1.5rem; }
+      .highlight-text { padding:3rem 1.5rem; }
+      footer { padding:3rem 1.5rem 2rem; }
+    }
+  
+@media (pointer: coarse) { body, .nav-icon, .mpill, .muse-card, .load-more-btn { cursor: auto !important; } .cursor, .cursor-ring { display: none !important; } }
+html:focus-within { scroll-behavior: smooth; }
+</style>
+<meta content="index,follow" name="robots"/><meta content="#0c0b0b" name="theme-color"/><meta content="website" property="og:type"/><meta content="L'Moni Maison de Mode" property="og:site_name"/><meta content="en_US" property="og:locale"/><meta content="summary_large_image" name="twitter:card"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://images.unsplash.com" rel="preconnect"/><meta content="Discover watches that blend precision, polish, and luxury styling for an unforgettable finishing touch." name="description"/><meta content="Watches — L'Moni Maison de Mode" property="og:title"/><meta content="Discover watches that blend precision, polish, and luxury styling for an unforgettable finishing touch." property="og:description"/><meta content="https://lmonimaison.com/watches.html" property="og:url"/><meta content="Watches — L'Moni Maison de Mode" name="twitter:title"/><meta content="Discover watches that blend precision, polish, and luxury styling for an unforgettable finishing touch." name="twitter:description"/><link href="https://lmonimaison.com/watches.html" rel="canonical"/></head>
+<body>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+<div class="marquee-bar"><div class="marquee-track">
+<span>Watches</span><span>✦</span>
+<span>Luxury Style · Fashion Watches · Gold · Silver · Rose Gold</span><span>✦</span>
+<span>Time Is the Ultimate Luxury</span><span>✦</span>
+<span>Watches</span><span>✦</span>
+<span>Luxury Style · Fashion Watches · Gold · Silver · Rose Gold</span><span>✦</span>
+<span>Time Is the Ultimate Luxury</span><span>✦</span>
+</div></div>
+<nav>
+<ul class="nav-links"><li><a href="new-arrivals.html">Shop</a></li><li><a href="ready-to-wear.html">Collections</a></li><li><a href="lookbook.html">Lookbook</a></li></ul>
+<div class="nav-logo"><div class="logotype"><em>L'Moni</em> Maison de Mode</div><div class="sub">San Antonio · Est. 2025</div></div>
+<div class="nav-actions"><a aria-label="Contact the maison" class="nav-icon" href="contact.html">♡</a><a aria-label="Contact the maison" class="nav-icon" href="contact.html">⚲</a><a aria-label="Browse collections" class="nav-icon" href="new-arrivals.html">☰</a></div>
+</nav>
+<!-- Hero — side by side with live clock -->
+<div class="page-hero">
+<div class="hero-visual">
+<img alt="Watches" fetchpriority="high" loading="eager" src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=900&amp;q=80"/>
+</div>
+<div class="hero-text-panel">
+<div class="breadcrumb"><a href="index.html">Home</a><span>›</span><a href="new-arrivals.html">Shop</a><span>›</span><span class="active">Watches</span></div>
+<div class="hero-clock">Time Pieces <span class="clock-digits" id="liveClock">12:00:00</span></div>
+<h1>Time Is the<br/>Ultimate <em>Luxury</em></h1>
+<p>A great watch is more than a timepiece — it's a statement. Curated fashion watches that bring precision and elegance to every wrist, at every price.</p>
+<a class="btn-primary" href="#arrivals">Shop All Watches →</a>
+</div>
+</div>
+<!-- Collection Strip -->
+<div class="collection-strip">
+<div class="collection-card reveal">
+<img alt="Classic Collection" decoding="async" loading="lazy" src="https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=700&amp;q=80"/>
+<div class="collection-overlay">
+<span class="collection-tag">Collection</span>
+<div class="collection-name">The Classic</div>
+<div class="collection-desc">Timeless · Refined · Enduring</div>
+</div>
+<div class="collection-arrow">↗</div>
+</div>
+<div class="collection-card reveal">
+<img alt="Bold Collection" decoding="async" loading="lazy" src="https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=700&amp;q=80"/>
+<div class="collection-overlay">
+<span class="collection-tag">Collection</span>
+<div class="collection-name">The Bold</div>
+<div class="collection-desc">Statement · Oversized · Striking</div>
+</div>
+<div class="collection-arrow">↗</div>
+</div>
+<div class="collection-card reveal">
+<img alt="Minimal Collection" decoding="async" loading="lazy" src="https://images.unsplash.com/photo-1522312346375-d1a52e2b99b3?w=700&amp;q=80"/>
+<div class="collection-overlay">
+<span class="collection-tag">Collection</span>
+<div class="collection-name">The Minimal</div>
+<div class="collection-desc">Clean · Slim · Understated</div>
+</div>
+<div class="collection-arrow">↗</div>
+</div>
+</div>
+<!-- Filter Bar -->
+<div class="filter-bar" id="arrivals">
+<div class="filter-pills">
+<button class="pill active">All Watches</button>
+<button class="pill">Classic</button>
+<button class="pill">Bold &amp; Statement</button>
+<button class="pill">Minimal</button>
+<button class="pill">Rose Gold</button>
+<button class="pill">Under $100</button>
+</div>
+<select class="sort-select"><option>Sort: Newest First</option><option>Price: Low to High</option><option>Price: High to Low</option><option>Best Sellers</option></select>
+</div>
+<!-- Shop Layout -->
+<div class="shop-layout">
+<aside class="sidebar">
+<div class="sidebar-section">
+<div class="sidebar-title">Style</div>
+<div class="filter-option"><input checked="" class="filter-checkbox" type="checkbox"/><label class="filter-label">All Watches</label><span class="filter-count">68</span></div>
+<div class="filter-option"><input class="filter-checkbox" type="checkbox"/><label class="filter-label">Classic &amp; Dress</label><span class="filter-count">24</span></div>
+<div class="filter-option"><input class="filter-checkbox" type="checkbox"/><label class="filter-label">Bold &amp; Statement</label><span class="filter-count">18</span></div>
+<div class="filter-option"><input class="filter-checkbox" type="checkbox"/><label class="filter-label">Minimal &amp; Slim</label><span class="filter-count">14</span></div>
+<div class="filter-option"><input class="filter-checkbox" type="checkbox"/><label class="filter-label">Sport &amp; Active</label><span class="filter-count">12</span></div>
+</div>
+<hr class="sidebar-divider"/>
+<div class="sidebar-section">
+<div class="sidebar-title">Case Color</div>
+<div class="color-swatches">
+<div class="swatch active" style="background:linear-gradient(135deg,#b8965a,#d4b483)" title="Gold"></div>
+<div class="swatch" style="background:linear-gradient(135deg,#c0c0c0,#e8e8e8)" title="Silver"></div>
+<div class="swatch" style="background:linear-gradient(135deg,#b76e79,#d4a0a8)" title="Rose Gold"></div>
+<div class="swatch" style="background:#1a1a1a" title="Black"></div>
+<div class="swatch" style="background:linear-gradient(135deg,#b8965a 50%,#c0c0c0 50%)" title="Two-Tone"></div>
+</div>
+</div>
+<hr class="sidebar-divider"/>
+<div class="sidebar-section">
+<div class="sidebar-title">Strap Type</div>
+<div class="strap-pills">
+<button class="strap-pill active">All Straps</button>
+<button class="strap-pill">Leather Band</button>
+<button class="strap-pill">Metal Bracelet</button>
+<button class="strap-pill">Mesh Band</button>
+<button class="strap-pill">Silicone &amp; Sport</button>
+<button class="strap-pill">Chain Link</button>
+</div>
+</div>
+<hr class="sidebar-divider"/>
+<div class="sidebar-section">
+<div class="sidebar-title">Price</div>
+<div class="price-range"><span>$0</span><span>$500</span></div>
+<input class="range-input" max="500" min="0" type="range" value="250">
+</input></div>
+<hr class="sidebar-divider"/>
+<button class="clear-btn">Clear Filters</button>
+</aside>
+<div class="product-area">
+<div class="results-bar"><span>Showing <strong>68</strong> watches</span><span>Spring 2026 Collection</span></div>
+<div class="products-grid">
+<div class="product-card reveal">
+<div class="product-img">
+<img alt="Gold Mesh Watch" decoding="async" loading="lazy" src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500&amp;q=80"/>
+<div class="product-badge badge-hot">Best Seller</div>
+<button class="wishlist-btn">♡</button>
+<div class="product-actions"><button>Quick View</button><button>Add to Bag</button></div>
+</div>
+<div class="product-info">
+<div class="product-category">Classic</div>
+<div class="product-name">Gold Mesh Bracelet Watch</div>
+<div class="product-price">$148.00</div>
+<div class="product-spec">Gold Case · Mesh Band · 36mm</div>
+</div>
+</div>
+<div class="product-card reveal">
+<div class="product-img">
+<img alt="Rose Gold Watch" decoding="async" loading="lazy" src="https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=500&amp;q=80"/>
+<div class="product-badge badge-new">New</div>
+<button class="wishlist-btn">♡</button>
+<div class="product-actions"><button>Quick View</button><button>Add to Bag</button></div>
+</div>
+<div class="product-info">
+<div class="product-category">Classic</div>
+<div class="product-name">Rose Gold Leather Watch</div>
+<div class="product-price">$122.00</div>
+<div class="product-spec">Rose Gold Case · Brown Leather · 32mm</div>
+</div>
+</div>
+<div class="product-card reveal">
+<div class="product-img">
+<img alt="Minimal White Dial" decoding="async" loading="lazy" src="https://images.unsplash.com/photo-1522312346375-d1a52e2b99b3?w=500&amp;q=80"/>
+<div class="product-badge badge-new">New</div>
+<button class="wishlist-btn">♡</button>
+<div class="product-actions"><button>Quick View</button><button>Add to Bag</button></div>
+</div>
+<div class="product-info">
+<div class="product-category">Minimal</div>
+<div class="product-name">Slim White Dial Watch</div>
+<div class="product-price">$88.00</div>
+<div class="product-spec">Silver Case · White Dial · 28mm</div>
+</div>
+</div>
+<!-- Editorial -->
+<div class="editorial-card reveal">
+<img alt="Watch editorial" decoding="async" loading="lazy" src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=1400&amp;q=80"/>
+<div class="editorial-card-content">
+<div>
+<div style="font-size:.58rem;letter-spacing:.4em;text-transform:uppercase;color:var(--gold);margin-bottom:.7rem;">The Dress Watch Edit</div>
+<h3>Every second is a<br/><em>style statement</em></h3>
+</div>
+<a class="btn-outline" href="#">Shop Dress Watches →</a>
+</div>
+</div>
+<div class="product-card reveal">
+<div class="product-img">
+<img alt="Bold Black Watch" decoding="async" loading="lazy" src="https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=500&amp;q=80"/>
+<div class="product-badge badge-ltd">Limited</div>
+<button class="wishlist-btn">♡</button>
+<div class="product-actions"><button>Quick View</button><button>Add to Bag</button></div>
+</div>
+<div class="product-info">
+<div class="product-category">Bold &amp; Statement</div>
+<div class="product-name">Oversized Black Dial Watch</div>
+<div class="product-price">$175.00</div>
+<div class="product-spec">Black Case · Chain Link · 40mm</div>
+</div>
+</div>
+<div class="product-card reveal">
+<div class="product-img">
+<img alt="Two-Tone Watch" decoding="async" loading="lazy" src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500&amp;q=80"/>
+<div class="product-badge badge-sale">Sale</div>
+<button class="wishlist-btn">♡</button>
+<div class="product-actions"><button>Quick View</button><button>Add to Bag</button></div>
+</div>
+<div class="product-info">
+<div class="product-category">Classic</div>
+<div class="product-name">Two-Tone Bracelet Watch</div>
+<div class="product-price">$98.00 <span class="old">$135.00</span></div>
+<div class="product-spec">Gold &amp; Silver · 34mm</div>
+</div>
+</div>
+<div class="product-card reveal">
+<div class="product-img">
+<img alt="Crystal Bezel Watch" decoding="async" loading="lazy" src="https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=500&amp;q=80"/>
+<div class="product-badge badge-new">New</div>
+<button class="wishlist-btn">♡</button>
+<div class="product-actions"><button>Quick View</button><button>Add to Bag</button></div>
+</div>
+<div class="product-info">
+<div class="product-category">Bold &amp; Statement</div>
+<div class="product-name">Crystal Bezel Glam Watch</div>
+<div class="product-price">$138.00</div>
+<div class="product-spec">Gold · Crystal Bezel · 36mm</div>
+</div>
+</div>
+</div>
+<div class="pagination reveal">
+<button class="page-btn wide">← Prev</button>
+<button class="page-btn active">1</button>
+<button class="page-btn">2</button>
+<button class="page-btn">3</button>
+<button class="page-btn wide">Next →</button>
+</div>
+</div>
+</div>
+<!-- Watch Highlight Feature -->
+<div class="watch-highlight">
+<div class="highlight-img reveal-left">
+<img alt="Watch detail" decoding="async" loading="lazy" src="https://images.unsplash.com/photo-1522312346375-d1a52e2b99b3?w=900&amp;q=80"/>
+</div>
+<div class="highlight-text reveal-right">
+<div class="section-tag">The Craft</div>
+<h2 class="section-title">Built to <em>Impress.</em><br/>Worn to <em>Last.</em></h2>
+<p>Every watch in the L'Moni collection is selected for its quality of craftsmanship, its visual impact on the wrist, and its ability to complement any outfit — from a morning meeting to a midnight dinner.</p>
+<div class="features-grid">
+<div class="feature-item">
+<div class="feature-label">Movement</div>
+<div class="feature-val">Japanese Quartz</div>
+</div>
+<div class="feature-item">
+<div class="feature-label">Water Resistance</div>
+<div class="feature-val">3 ATM Standard</div>
+</div>
+<div class="feature-item">
+<div class="feature-label">Case Options</div>
+<div class="feature-val">28mm – 40mm</div>
+</div>
+<div class="feature-item">
+<div class="feature-label">Warranty</div>
+<div class="feature-val">1 Year Included</div>
+</div>
+</div>
+<a class="btn-outline" href="#">View All Watches →</a>
+</div>
+</div>
+<footer>
+<div class="footer-grid">
+<div class="footer-brand"><span class="logotype"><em>L'Moni</em> Maison de Mode</span><p>Where Luxury Meets Identity. Luxury fashion, beauty, gifts, and signature accessories curated for the woman who leads with presence and purpose.</p><div class="social-links"><a aria-label="Facebook" class="social-link" href="https://www.facebook.com/" rel="noopener noreferrer" target="_blank">f</a><a aria-label="Instagram" class="social-link" href="https://www.instagram.com/" rel="noopener noreferrer" target="_blank">ig</a><a aria-label="X" class="social-link" href="https://x.com/" rel="noopener noreferrer" target="_blank">tw</a><a aria-label="TikTok" class="social-link" href="https://www.tiktok.com/" rel="noopener noreferrer" target="_blank">tk</a></div></div>
+<div class="footer-col"><h4>Shop</h4><ul><li><a href="new-arrivals.html">New Arrivals</a></li><li><a href="#">Watches</a></li><li><a href="#">Fashion Jewelry</a></li><li><a href="#">Bags &amp; Wallets</a></li><li><a href="sale.html">Sale</a></li></ul></div>
+<div class="footer-col"><h4>Help</h4><ul><li><a href="#">Watch Guide</a></li><li><a href="shipping-returns.html">Shipping Info</a></li><li><a href="shipping-returns.html#returns">Returns</a></li><li><a href="track-order.html">Track Order</a></li><li><a href="contact.html">Contact Us</a></li></ul></div>
+<div class="footer-col"><h4>The Maison</h4><ul><li><a href="maison-lmoni-about.html">Our Story</a></li><li><a href="muse-wall.html">Muse Wall</a></li><li><a href="giving-back.html">Giving Back</a></li><li><a href="lookbook.html">Lookbook</a></li><li><a href="privacy-policy.html">Privacy Policy</a></li></ul></div>
+</div>
+<div class="footer-bottom"><p>© 2026 L'Moni Maison de Mode · Lil'Monii's Enterprise LLC · San Antonio, TX</p><p>Designed for the woman who knows her worth.</p></div>
+</footer>
+<script>
+  // Live clock
+  function updateClock(){
+    const now=new Date();
+    const h=String(now.getHours()).padStart(2,'0');
+    const m=String(now.getMinutes()).padStart(2,'0');
+    const s=String(now.getSeconds()).padStart(2,'0');
+    const el=document.getElementById('liveClock');
+    if(el) el.textContent=`${h}:${m}:${s}`;
+  }
+  updateClock();
+  setInterval(updateClock,1000);
+
+  // Cursor
+  const cursor=document.getElementById('cursor'),ring=document.getElementById('cursorRing');
+  let mx=0,my=0,rx=0,ry=0;
+  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cursor.style.left=mx+'px';cursor.style.top=my+'px';});
+  function animRing(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animRing);}
+  animRing();
+  document.querySelectorAll('a,button,select').forEach(el=>{
+    el.addEventListener('mouseenter',()=>{cursor.style.width='20px';cursor.style.height='20px';ring.style.width='50px';ring.style.height='50px';ring.style.opacity='.4';});
+    el.addEventListener('mouseleave',()=>{cursor.style.width='10px';cursor.style.height='10px';ring.style.width='36px';ring.style.height='36px';ring.style.opacity='.6';});
+  });
+  document.querySelectorAll('.pill').forEach(p=>{p.addEventListener('click',()=>{document.querySelectorAll('.pill').forEach(x=>x.classList.remove('active'));p.classList.add('active');});});
+  document.querySelectorAll('.strap-pill').forEach(p=>{p.addEventListener('click',()=>{document.querySelectorAll('.strap-pill').forEach(x=>x.classList.remove('active'));p.classList.add('active');});});
+  const reveals=document.querySelectorAll('.reveal,.reveal-left,.reveal-right');
+  const obs=new IntersectionObserver(entries=>{entries.forEach((e,i)=>{if(e.isIntersecting){setTimeout(()=>e.target.classList.add('visible'),i*80);obs.unobserve(e.target);}});},{threshold:.08});
+  reveals.forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>

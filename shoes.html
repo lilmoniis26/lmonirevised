@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Shoes — L'Moni Maison de Mode</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&amp;family=Raleway:wght@200;300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<style>
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    :root { --noir:#0c0b0b; --cream:#f7f2ea; --gold:#b8965a; --gold-light:#d4b483; --muted:#5c5147; --white:#fdfaf6; --dark2:#0f0e0d; --dark3:#141210; }
+    html { scroll-behavior:smooth; }
+    body { background:var(--noir); color:var(--cream); font-family:'Raleway',sans-serif; font-weight:300; overflow-x:hidden; cursor:none; }
+
+    /* Cursor */
+    .cursor { width:10px; height:10px; background:var(--gold); border-radius:50%; position:fixed; pointer-events:none; z-index:9999; transform:translate(-50%,-50%); transition:width .3s,height .3s; }
+    .cursor-ring { width:36px; height:36px; border:1px solid var(--gold-light); border-radius:50%; position:fixed; pointer-events:none; z-index:9998; transform:translate(-50%,-50%); transition:width .3s,height .3s,opacity .3s; opacity:.6; }
+
+    /* Marquee */
+    .marquee-bar { background:var(--gold); color:var(--noir); font-size:.65rem; letter-spacing:.3em; text-transform:uppercase; padding:8px 0; overflow:hidden; white-space:nowrap; }
+    .marquee-track { display:inline-block; animation:marquee 30s linear infinite; }
+    .marquee-track span { margin:0 3rem; }
+    @keyframes marquee { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+    /* Nav */
+    nav { position:sticky; top:0; z-index:100; display:flex; align-items:center; justify-content:space-between; padding:1.2rem 4rem; background:rgba(12,11,11,.95); backdrop-filter:blur(14px); border-bottom:1px solid rgba(184,150,90,.18); }
+    .nav-links { display:flex; gap:2.4rem; list-style:none; }
+    .nav-links a { color:var(--cream); text-decoration:none; font-size:.72rem; letter-spacing:.2em; text-transform:uppercase; font-weight:400; position:relative; padding-bottom:2px; transition:color .3s; }
+    .nav-links a::after { content:''; position:absolute; bottom:0; left:0; width:0; height:1px; background:var(--gold); transition:width .35s; }
+    .nav-links a:hover { color:var(--gold-light); }
+    .nav-links a:hover::after { width:100%; }
+    .nav-logo { text-align:center; flex:1; }
+    .nav-logo .logotype { font-family:'Cormorant Garamond',serif; font-size:1.55rem; font-weight:300; letter-spacing:.12em; color:var(--white); }
+    .nav-logo .logotype em { font-style:italic; color:var(--gold); }
+    .nav-logo .sub { font-size:.55rem; letter-spacing:.45em; text-transform:uppercase; color:var(--muted); margin-top:1px; }
+    .nav-actions { display:flex; gap:1.5rem; align-items:center; }
+    .nav-icon { font-size:1rem; color:var(--cream); cursor:none; transition:color .3s; text-decoration:none; }
+    .nav-icon:hover { color:var(--gold); }
+
+    /* Hero */
+    .page-hero { position:relative; height:65vh; display:flex; align-items:flex-end; overflow:hidden; }
+    .page-hero-bg { position:absolute; inset:0; }
+    .page-hero-bg img { width:100%; height:100%; object-fit:cover; object-position:center 35%; filter:brightness(.22) saturate(.6); transition:transform 10s ease; }
+    .page-hero:hover .page-hero-bg img { transform:scale(1.04); }
+    .page-hero-bg::after { content:''; position:absolute; inset:0; background:linear-gradient(to top,var(--noir) 0%,transparent 55%); }
+    /* Big background word */
+    .page-hero-bg::before { content:'SHOES'; position:absolute; bottom:-2rem; right:2rem; font-family:'Cormorant Garamond',serif; font-size:18rem; font-weight:600; color:rgba(184,150,90,.05); line-height:1; z-index:1; pointer-events:none; letter-spacing:-.02em; }
+    .page-hero-content { position:relative; z-index:2; padding:4rem 6rem; width:100%; display:flex; justify-content:space-between; align-items:flex-end; }
+    .breadcrumb { font-size:.62rem; letter-spacing:.3em; text-transform:uppercase; color:var(--gold); display:flex; align-items:center; gap:.7rem; margin-bottom:1rem; }
+    .breadcrumb a { color:var(--muted); text-decoration:none; transition:color .3s; }
+    .breadcrumb a:hover { color:var(--gold); }
+    .page-hero h1 { font-family:'Cormorant Garamond',serif; font-size:clamp(3rem,6vw,5.5rem); font-weight:300; line-height:1.05; color:var(--white); }
+    .page-hero h1 em { font-style:italic; color:var(--gold-light); }
+    .hero-right-text { text-align:right; max-width:300px; }
+    .hero-right-text p { font-size:.78rem; line-height:1.9; color:rgba(247,242,234,.5); }
+
+    /* Subcat section */
+    .subcat-section { padding:5rem 4rem 3rem; }
+    .section-header { display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:3rem; }
+    .section-tag { font-size:.62rem; letter-spacing:.45em; text-transform:uppercase; color:var(--gold); display:flex; align-items:center; gap:1rem; margin-bottom:.8rem; }
+    .section-tag::before { content:''; width:30px; height:1px; background:var(--gold); }
+    .section-title { font-family:'Cormorant Garamond',serif; font-size:clamp(1.8rem,3vw,2.6rem); font-weight:300; color:var(--white); line-height:1.15; }
+    .section-title em { font-style:italic; color:var(--gold-light); }
+
+    /* Shoe subcat — horizontal scroll cards */
+    .subcat-scroll { display:grid; grid-template-columns:repeat(6,1fr); gap:2px; background:rgba(184,150,90,.07); }
+    .subcat-card { position:relative; overflow:hidden; cursor:none; aspect-ratio:2/3; }
+    .subcat-card.wide { grid-column:span 2; aspect-ratio:auto; min-height:320px; }
+    .subcat-card img { width:100%; height:100%; object-fit:cover; object-position:center; filter:brightness(.52) saturate(.72); transition:transform .7s,filter .7s; }
+    .subcat-card:hover img { transform:scale(1.08); filter:brightness(.35) saturate(.55); }
+    .subcat-overlay { position:absolute; inset:0; display:flex; flex-direction:column; justify-content:flex-end; padding:1.5rem 1.8rem; background:linear-gradient(to top,rgba(12,11,11,.88) 0%,transparent 55%); }
+    .subcat-card.wide .subcat-overlay { padding:2.2rem 2.5rem; }
+    .subcat-name { font-family:'Cormorant Garamond',serif; font-weight:300; color:var(--white); }
+    .subcat-card.wide .subcat-name { font-size:2.2rem; margin-bottom:.4rem; }
+    .subcat-card:not(.wide) .subcat-name { font-size:1.25rem; margin-bottom:.25rem; }
+    .subcat-count { font-size:.55rem; letter-spacing:.3em; text-transform:uppercase; color:var(--gold-light); }
+    .subcat-arrow { position:absolute; top:1rem; right:1rem; width:34px; height:34px; border:1px solid rgba(247,242,234,.22); display:flex; align-items:center; justify-content:center; color:var(--cream); font-size:.8rem; opacity:0; transform:translateY(5px); transition:opacity .3s,transform .3s; }
+    .subcat-card:hover .subcat-arrow { opacity:1; transform:translateY(0); }
+    .subcat-tag-badge { display:inline-block; font-size:.48rem; letter-spacing:.22em; text-transform:uppercase; background:var(--gold); color:var(--noir); padding:.22rem .6rem; margin-bottom:.5rem; font-weight:600; }
+
+    /* Filter bar */
+    .filter-bar { background:var(--dark2); border-top:1px solid rgba(184,150,90,.12); border-bottom:1px solid rgba(184,150,90,.12); padding:1.2rem 4rem; display:flex; align-items:center; justify-content:space-between; }
+    .filter-pills { display:flex; gap:.5rem; flex-wrap:wrap; }
+    .pill { background:transparent; border:1px solid rgba(184,150,90,.2); color:var(--muted); padding:.4rem 1rem; font-family:'Raleway',sans-serif; font-size:.6rem; letter-spacing:.2em; text-transform:uppercase; cursor:none; transition:all .3s; }
+    .pill:hover,.pill.active { background:var(--gold); color:var(--noir); border-color:var(--gold); }
+    .sort-select { background:transparent; border:1px solid rgba(184,150,90,.22); color:var(--cream); padding:.42rem 1rem; font-family:'Raleway',sans-serif; font-size:.62rem; cursor:none; outline:none; }
+    .sort-select option { background:var(--dark3); }
+
+    /* Shop layout */
+    .shop-layout { display:grid; grid-template-columns:220px 1fr; }
+
+    /* Sidebar */
+    .sidebar { background:var(--dark3); border-right:1px solid rgba(184,150,90,.1); padding:2.5rem 1.8rem; position:sticky; top:67px; height:fit-content; }
+    .sidebar-section { margin-bottom:2.2rem; }
+    .sidebar-title { font-size:.58rem; letter-spacing:.4em; text-transform:uppercase; color:var(--gold); margin-bottom:1rem; }
+    .sidebar-divider { border:none; border-top:1px solid rgba(184,150,90,.1); margin-bottom:2.2rem; }
+    .filter-option { display:flex; align-items:center; gap:.8rem; margin-bottom:.85rem; cursor:none; }
+    .filter-checkbox { width:14px; height:14px; border:1px solid rgba(184,150,90,.35); appearance:none; cursor:none; position:relative; flex-shrink:0; transition:background .3s,border-color .3s; }
+    .filter-checkbox:checked { background:var(--gold); border-color:var(--gold); }
+    .filter-checkbox:checked::after { content:'✓'; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); color:var(--noir); font-size:.55rem; font-weight:700; }
+    .filter-label { font-size:.7rem; color:rgba(247,242,234,.55); transition:color .3s; }
+    .filter-option:hover .filter-label { color:var(--cream); }
+    .filter-count { margin-left:auto; font-size:.58rem; color:var(--muted); }
+    .color-swatches { display:flex; flex-wrap:wrap; gap:.45rem; }
+    .swatch { width:20px; height:20px; border-radius:50%; border:2px solid transparent; cursor:none; transition:border-color .3s,transform .3s; }
+    .swatch:hover,.swatch.active { border-color:var(--gold); transform:scale(1.15); }
+    .price-range { display:flex; justify-content:space-between; font-size:.65rem; color:var(--muted); margin-bottom:.7rem; }
+    .range-input { width:100%; appearance:none; height:2px; background:linear-gradient(to right,var(--gold) 55%,rgba(184,150,90,.2) 55%); outline:none; cursor:none; }
+    .range-input::-webkit-slider-thumb { appearance:none; width:13px; height:13px; background:var(--gold); border-radius:50%; cursor:none; }
+    .heel-heights { display:flex; flex-direction:column; gap:.6rem; }
+    .heel-btn { background:transparent; border:1px solid rgba(184,150,90,.18); color:var(--muted); padding:.4rem .8rem; font-family:'Raleway',sans-serif; font-size:.6rem; letter-spacing:.18em; text-transform:uppercase; cursor:none; transition:all .3s; text-align:left; }
+    .heel-btn:hover,.heel-btn.active { background:rgba(184,150,90,.12); border-color:var(--gold); color:var(--gold-light); }
+    .clear-btn { width:100%; background:transparent; border:1px solid rgba(184,150,90,.18); color:var(--muted); padding:.55rem; font-family:'Raleway',sans-serif; font-size:.58rem; letter-spacing:.22em; text-transform:uppercase; cursor:none; transition:all .3s; }
+    .clear-btn:hover { border-color:var(--gold); color:var(--gold); }
+
+    /* Size grid for shoes */
+    .size-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:.4rem; }
+    .size-box { background:transparent; border:1px solid rgba(184,150,90,.18); color:var(--muted); padding:.4rem; font-family:'Raleway',sans-serif; font-size:.62rem; cursor:none; transition:all .3s; text-align:center; }
+    .size-box:hover,.size-box.active { background:var(--gold); color:var(--noir); border-color:var(--gold); }
+
+    /* Products */
+    .product-area { padding:2.5rem 3rem; }
+    .results-bar { display:flex; justify-content:space-between; margin-bottom:2rem; padding-bottom:1rem; border-bottom:1px solid rgba(184,150,90,.1); }
+    .results-bar span { font-size:.7rem; color:var(--muted); }
+    .results-bar strong { color:var(--gold-light); }
+    .products-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1.6rem; }
+    .product-card { position:relative; cursor:none; }
+    .product-img { position:relative; overflow:hidden; aspect-ratio:1/1; background:#1a1714; margin-bottom:.9rem; }
+    .product-img img { width:100%; height:100%; object-fit:cover; object-position:center; transition:transform .65s ease; filter:brightness(.88); }
+    .product-card:hover .product-img img { transform:scale(1.07); }
+    .product-badge { position:absolute; top:.9rem; left:.9rem; font-size:.5rem; letter-spacing:.2em; text-transform:uppercase; padding:.25rem .65rem; font-weight:600; z-index:2; }
+    .badge-new { background:var(--gold); color:var(--noir); }
+    .badge-sale { background:#7a3030; color:var(--cream); }
+    .badge-hot { background:transparent; color:var(--gold); border:1px solid var(--gold); }
+    .wishlist-btn { position:absolute; top:.9rem; right:.9rem; width:32px; height:32px; background:rgba(12,11,11,.65); backdrop-filter:blur(6px); border:1px solid rgba(184,150,90,.2); color:var(--cream); font-size:.8rem; display:flex; align-items:center; justify-content:center; cursor:none; opacity:0; transition:opacity .3s,color .3s; z-index:2; }
+    .product-card:hover .wishlist-btn { opacity:1; }
+    .wishlist-btn:hover { color:var(--gold); border-color:var(--gold); }
+    .product-actions { position:absolute; bottom:0; left:0; right:0; display:flex; transform:translateY(100%); transition:transform .35s ease; z-index:2; }
+    .product-card:hover .product-actions { transform:translateY(0); }
+    .product-actions button { flex:1; background:rgba(12,11,11,.9); backdrop-filter:blur(8px); color:var(--cream); border:none; border-top:1px solid rgba(184,150,90,.2); padding:.8rem .4rem; font-family:'Raleway',sans-serif; font-size:.57rem; letter-spacing:.18em; text-transform:uppercase; cursor:none; transition:background .3s,color .3s; }
+    .product-actions button:first-child { border-right:1px solid rgba(184,150,90,.15); }
+    .product-actions button:hover { background:var(--gold); color:var(--noir); }
+    .product-info { padding:0 .15rem; }
+    .product-category { font-size:.57rem; letter-spacing:.28em; text-transform:uppercase; color:var(--muted); margin-bottom:.3rem; }
+    .product-name { font-family:'Cormorant Garamond',serif; font-size:1rem; font-weight:400; color:var(--cream); margin-bottom:.35rem; }
+    .product-price { font-size:.72rem; letter-spacing:.1em; color:var(--gold); }
+    .product-price .old { text-decoration:line-through; color:var(--muted); margin-left:.4rem; font-size:.65rem; }
+    .shoe-sizes { display:flex; gap:.3rem; margin-top:.5rem; flex-wrap:wrap; }
+    .shoe-sz { font-size:.52rem; color:rgba(247,242,234,.38); border:1px solid rgba(184,150,90,.12); padding:.15rem .35rem; transition:all .3s; cursor:none; }
+    .shoe-sz.avail { color:rgba(247,242,234,.5); border-color:rgba(184,150,90,.2); }
+    .shoe-sz:hover { border-color:var(--gold); color:var(--gold); }
+
+    /* Wide editorial */
+    .editorial-card { grid-column:span 3; position:relative; height:260px; overflow:hidden; display:flex; align-items:center; }
+    .editorial-card img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center 60%; filter:brightness(.27) saturate(.5); transition:transform 6s ease; }
+    .editorial-card:hover img { transform:scale(1.03); }
+    .editorial-card-content { position:relative; z-index:2; padding:3rem; display:flex; justify-content:space-between; align-items:center; width:100%; }
+    .editorial-card-content h3 { font-family:'Cormorant Garamond',serif; font-size:2.2rem; font-weight:300; color:var(--white); line-height:1.1; }
+    .editorial-card-content h3 em { font-style:italic; color:var(--gold-light); }
+    .btn-outline { display:inline-flex; align-items:center; gap:1rem; background:transparent; color:var(--cream); text-decoration:none; font-size:.63rem; letter-spacing:.28em; text-transform:uppercase; padding:.85rem 1.8rem; border:1px solid rgba(247,242,234,.3); transition:border-color .3s,color .3s,gap .3s; }
+    .btn-outline:hover { border-color:var(--gold); color:var(--gold); gap:1.5rem; }
+
+    /* Pagination */
+    .pagination { display:flex; justify-content:center; align-items:center; gap:.4rem; padding:3rem 0; }
+    .page-btn { width:36px; height:36px; background:transparent; border:1px solid rgba(184,150,90,.18); color:var(--muted); font-family:'Raleway',sans-serif; font-size:.7rem; cursor:none; transition:all .3s; display:flex; align-items:center; justify-content:center; }
+    .page-btn:hover,.page-btn.active { background:var(--gold); color:var(--noir); border-color:var(--gold); }
+    .page-btn.wide { width:auto; padding:0 1.1rem; font-size:.6rem; letter-spacing:.18em; text-transform:uppercase; }
+
+    /* Shoe care strip */
+    .care-strip { background:var(--dark2); padding:4rem; display:grid; grid-template-columns:repeat(4,1fr); gap:2rem; border-top:1px solid rgba(184,150,90,.1); }
+    .care-item { text-align:center; }
+    .care-icon { font-size:1.6rem; margin-bottom:.8rem; display:block; }
+    .care-title { font-family:'Cormorant Garamond',serif; font-size:1.1rem; color:var(--cream); margin-bottom:.4rem; }
+    .care-desc { font-size:.68rem; line-height:1.8; color:var(--muted); }
+
+    /* Footer */
+    footer { background:#080707; padding:5rem 4rem 2rem; border-top:1px solid rgba(184,150,90,.1); }
+    .footer-grid { display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:4rem; margin-bottom:4rem; }
+    .footer-brand .logotype { font-family:'Cormorant Garamond',serif; font-size:1.6rem; font-weight:300; color:var(--white); margin-bottom:1.2rem; display:block; }
+    .footer-brand .logotype em { font-style:italic; color:var(--gold); }
+    .footer-brand p { font-size:.75rem; line-height:1.9; color:var(--muted); max-width:280px; margin-bottom:1.8rem; }
+    .social-links { display:flex; gap:1rem; }
+    .social-link { width:36px; height:36px; border:1px solid rgba(184,150,90,.25); display:flex; align-items:center; justify-content:center; color:var(--muted); text-decoration:none; font-size:.8rem; transition:border-color .3s,color .3s; }
+    .social-link:hover { border-color:var(--gold); color:var(--gold); }
+    .footer-col h4 { font-size:.65rem; letter-spacing:.35em; text-transform:uppercase; color:var(--gold); margin-bottom:1.5rem; }
+    .footer-col ul { list-style:none; }
+    .footer-col ul li { margin-bottom:.8rem; }
+    .footer-col ul li a { font-size:.77rem; color:var(--muted); text-decoration:none; transition:color .3s; }
+    .footer-col ul li a:hover { color:var(--gold-light); }
+    .footer-bottom { border-top:1px solid rgba(184,150,90,.1); padding-top:2rem; display:flex; justify-content:space-between; }
+    .footer-bottom p { font-size:.65rem; color:var(--muted); letter-spacing:.1em; }
+
+    .reveal { opacity:0; transform:translateY(30px); transition:opacity .7s ease,transform .7s ease; }
+    .reveal.visible { opacity:1; transform:translateY(0); }
+
+    @media(max-width:1100px){
+      .subcat-scroll { grid-template-columns:repeat(3,1fr); }
+      .subcat-card.wide { grid-column:span 3; min-height:260px; }
+      .shop-layout { grid-template-columns:1fr; }
+      .sidebar { position:static; display:flex; flex-wrap:wrap; gap:1.5rem; }
+      .sidebar-section { min-width:150px; margin-bottom:0; }
+      .products-grid { grid-template-columns:repeat(2,1fr); }
+      .editorial-card { grid-column:span 2; }
+      .care-strip { grid-template-columns:repeat(2,1fr); }
+      .footer-grid { grid-template-columns:1fr 1fr; gap:2rem; }
+    }
+    @media(max-width:768px){
+      nav { padding:1rem 1.5rem; }
+      .nav-links { display:none; }
+      .page-hero-content { padding:3rem 2rem; flex-direction:column; align-items:flex-start; gap:1rem; }
+      .subcat-section,.care-strip { padding:3rem 1.5rem; }
+      .filter-bar { padding:1rem 1.5rem; }
+      .product-area { padding:1.5rem; }
+      footer { padding:3rem 1.5rem 2rem; }
+    }
+  
+@media (pointer: coarse) { body, .nav-icon, .mpill, .muse-card, .load-more-btn { cursor: auto !important; } .cursor, .cursor-ring { display: none !important; } }
+html:focus-within { scroll-behavior: smooth; }
+</style>
+<meta content="index,follow" name="robots"/><meta content="#0c0b0b" name="theme-color"/><meta content="website" property="og:type"/><meta content="L'Moni Maison de Mode" property="og:site_name"/><meta content="en_US" property="og:locale"/><meta content="summary_large_image" name="twitter:card"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://images.unsplash.com" rel="preconnect"/><meta content="Step into the L'Moni Maison de Mode shoe collection featuring heels, sandals, and signature footwear with elevated presence." name="description"/><meta content="Shoes — L'Moni Maison de Mode" property="og:title"/><meta content="Step into the L'Moni Maison de Mode shoe collection featuring heels, sandals, and signature footwear with elevated presence." property="og:description"/><meta content="https://lmonimaison.com/shoes.html" property="og:url"/><meta content="Shoes — L'Moni Maison de Mode" name="twitter:title"/><meta content="Step into the L'Moni Maison de Mode shoe collection featuring heels, sandals, and signature footwear with elevated presence." name="twitter:description"/><link href="https://lmonimaison.com/shoes.html" rel="canonical"/></head>
+<body>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+<div class="marquee-bar"><div class="marquee-track"><span>Shoes</span><span>✦</span><span>Heels · Boots · Flats · Sandals · Sneakers · Mules</span><span>✦</span><span>New Styles Weekly</span><span>✦</span><span>Free Shipping Over $75</span><span>✦</span><span>Shoes</span><span>✦</span><span>Heels · Boots · Flats · Sandals · Sneakers · Mules</span><span>✦</span><span>New Styles Weekly</span><span>✦</span><span>Free Shipping Over $75</span><span>✦</span></div></div>
+<nav>
+<ul class="nav-links"><li><a href="new-arrivals.html">Shop</a></li><li><a href="ready-to-wear.html">Collections</a></li><li><a href="lookbook.html">Lookbook</a></li></ul>
+<div class="nav-logo"><div class="logotype"><em>L'Moni</em> Maison de Mode</div><div class="sub">San Antonio · Est. 2025</div></div>
+<div class="nav-actions"><a aria-label="Contact the maison" class="nav-icon" href="contact.html">♡</a><a aria-label="Contact the maison" class="nav-icon" href="contact.html">⚲</a><a aria-label="Browse collections" class="nav-icon" href="new-arrivals.html">☰</a></div>
+</nav>
+<!-- Hero -->
+<div class="page-hero">
+<div class="page-hero-bg"><img alt="Shoes" fetchpriority="high" loading="eager" src="https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=1600&amp;q=80"/></div>
+<div class="page-hero-content">
+<div>
+<div class="breadcrumb"><a href="index.html">Home</a><span>›</span><a href="new-arrivals.html">Shop</a><span>›</span> Shoes</div>
+<h1>Step Into <em>Her</em></h1>
+</div>
+<div class="hero-right-text"><p>Every great outfit starts from the ground up. From killer heels to effortless flats — find the shoe that finishes the story.</p></div>
+</div>
+</div>
+<!-- Subcategories -->
+<section class="subcat-section">
+<div class="section-header"><div><div class="section-tag">Shop by Style</div><h2 class="section-title">Find Your <em>Step</em></h2></div></div>
+<div class="subcat-scroll">
+<div class="subcat-card wide reveal">
+<img alt="Heels" decoding="async" loading="lazy" src="https://images.unsplash.com/photo-1515347619252-60a4bf4fff4f?w=800&amp;q=80"/>
+<div class="subcat-overlay"><span class="subcat-tag-badge">Featured</span><div class="subcat-name">Heels &amp; Stilettos</div><div class="subcat-count">36 styles · Block · Kitten · Stiletto</div></div>
+<div class="subcat-arrow">↗</div>
+</div>
+<div class="subcat-card reveal">
+<img alt="Sneakers" decoding="async" loading="lazy" src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500&amp;q=80"/>
+<div class="subcat-overlay"><div class="subcat-name">Sneakers</div><div class="subcat-count">22 styles</div></div>
+<div class="subcat-arrow">↗</div>
+</div>
+<div class="subcat-card reveal">
+<img alt="Boots" decoding="async" loading="lazy" src="https://images.unsplash.com/photo-1512374382149-233c42b6a83b?w=500&amp;q=80"/>
+<div class="subcat-overlay"><div class="subcat-name">Boots</div><div class="subcat-count">18 styles</div></div>
+<div class="subcat-arrow">↗</div>
+</div>
+<div class="subcat-card reveal">
+<img alt="Sandals" decoding="async" loading="lazy" src="https://images.unsplash.com/photo-1603808033192-082d6919d3e1?w=500&amp;q=80"/>
+<div class="subcat-overlay"><div class="subcat-name">Sandals</div><div class="subcat-count">20 styles</div></div>
+<div class="subcat-arrow">↗</div>
+</div>
+<div class="subcat-card reveal">
+<img alt="Flats &amp; Mules" decoding="async" loading="lazy" src="https://images.unsplash.com/photo-1560769629-975ec94e6a86?w=500&amp;q=80"/>
+<div class="subcat-overlay"><div class="subcat-name">Flats &amp; Mules</div><div class="subcat-count">16 styles</div></div>
+<div class="subcat-arrow">↗</div>
+</div>
+</div>
+</section>
+<!-- Filter bar -->
+<div class="filter-bar">
+<div class="filter-pills">
+<button class="pill active">All Shoes</button>
+<button class="pill">Heels</button>
+<button class="pill">Sneakers</button>
+<button class="pill">Boots</button>
+<button class="pill">Sandals</button>
+<button class="pill">Flats &amp; Mules</button>
+<button class="pill">Under $80</button>
+</div>
+<select class="sort-select"><option>Sort: Newest First</option><option>Price: Low to High</option><option>Price: High to Low</option><option>Best Sellers</option></select>
+</div>
+<!-- Shop layout -->
+<div class="shop-layout">
+<aside class="sidebar">
+<div class="sidebar-section">
+<div class="sidebar-title">Style</div>
+<div class="filter-option"><input checked="" class="filter-checkbox" type="checkbox"/><label class="filter-label">All Shoes</label><span class="filter-count">112</span></div>
+<div class="filter-option"><input class="filter-checkbox" type="checkbox"/><label class="filter-label">Heels &amp; Stilettos</label><span class="filter-count">36</span></div>
+<div class="filter-option"><input class="filter-checkbox" type="checkbox"/><label class="filter-label">Sneakers</label><span class="filter-count">22</span></div>
+<div class="filter-option"><input class="filter-checkbox" type="checkbox"/><label class="filter-label">Boots</label><span class="filter-count">18</span></div>
+<div class="filter-option"><input class="filter-checkbox" type="checkbox"/><label class="filter-label">Sandals</label><span class="filter-count">20</span></div>
+<div class="filter-option"><input class="filter-checkbox" type="checkbox"/><label class="filter-label">Flats &amp; Mules</label><span class="filter-count">16</span></div>
+</div>
+<hr class="sidebar-divider"/>
+<div class="sidebar-section">
+<div class="sidebar-title">Shoe Size</div>
+<div class="size-grid">
+<button class="size-box">5</button><button class="size-box">5.5</button>
+<button class="size-box">6</button><button class="size-box">6.5</button>
+<button class="size-box active">7</button><button class="size-box">7.5</button>
+<button class="size-box active">8</button><button class="size-box">8.5</button>
+<button class="size-box">9</button><button class="size-box">9.5</button>
+<button class="size-box">10</button><button class="size-box">11</button>
+</div>
+</div>
+<hr class="sidebar-divider"/>
+<div class="sidebar-section">
+<div class="sidebar-title">Heel Height</div>
+<div class="heel-heights">
+<button class="heel-btn active">Flat (0–1 in)</button>
+<button class="heel-btn">Low (1–2 in)</button>
+<button class="heel-btn">Mid (2–3 in)</button>
+<button class="heel-btn">High (3–4 in)</button>
+<button class="heel-btn">Platform (4 in+)</button>
+</div>
+</div>
+<hr class="sidebar-divider"/>
+<div class="sidebar-section">
+<div class="sidebar-title">Price</div>
+<div class="price-range"><span>$0</span><span>$350</span></div>
+<input class="range-input" max="350" min="0" type="range" value="200">
+</input></div>
+<hr class="sidebar-divider"/>
+<div class="sidebar-section">
+<div class="sidebar-title">Color</div>
+<div class="color-swatches">
+<div class="swatch active" style="background:#1a1a1a"></div>
+<div class="swatch" style="background:#fdfaf6"></div>
+<div class="swatch" style="background:#c9a7a7"></div>
+<div class="swatch" style="background:#b8965a"></div>
+<div class="swatch" style="background:#8b3a3a"></div>
+<div class="swatch" style="background:#3a4a6b"></div>
+<div class="swatch" style="background:#4a3728"></div>
+<div class="swatch" style="background:#c8b4a0"></div>
+</div>
+</div>
+<hr class="sidebar-divider"/>
+<button class="clear-btn">Clear Filters</button>
+</aside>
+<div class="product-area">
+<div class="results-bar"><span>Showing <strong>112</strong> styles</span><span>Shoes · Spring 2026</span></div>
+<div class="products-grid">
+<div class="product-card reveal">
+<div class="product-img">
+<img alt="Gold Stiletto" decoding="async" loading="lazy" src="https://images.unsplash.com/photo-1515347619252-60a4bf4fff4f?w=500&amp;q=80"/>
+<div class="product-badge badge-hot">Trending</div>
+<button class="wishlist-btn">♡</button>
+<div class="product-actions"><button>Quick View</button><button>Add to Bag</button></div>
+</div>
+<div class="product-info">
+<div class="product-category">Heels</div>
+<div class="product-name">Strappy Gold Stiletto</div>
+<div class="product-price">$95.00</div>
+<div class="shoe-sizes"><span class="shoe-sz avail">6</span><span class="shoe-sz avail">7</span><span class="shoe-sz avail">8</span><span class="shoe-sz avail">9</span><span class="shoe-sz">10</span></div>
+</div>
+</div>
+<div class="product-card reveal">
+<div class="product-img">
+<img alt="Knee High Boot" decoding="async" loading="lazy" src="https://images.unsplash.com/photo-1512374382149-233c42b6a83b?w=500&amp;q=80"/>
+<div class="product-badge badge-new">New</div>
+<button class="wishlist-btn">♡</button>
+<div class="product-actions"><button>Quick View</button><button>Add to Bag</button></div>
+</div>
+<div class="product-info">
+<div class="product-category">Boots</div>
+<div class="product-name">Knee-High Leather Boot</div>
+<div class="product-price">$168.00</div>
+<div class="shoe-sizes"><span class="shoe-sz avail">6</span><span class="shoe-sz avail">7</span><span class="shoe-sz">8</span><span class="shoe-sz avail">9</span><span class="shoe-sz avail">10</span></div>
+</div>
+</div>
+<div class="product-card reveal">
+<div class="product-img">
+<img alt="Pointed Mule" decoding="async" loading="lazy" src="https://images.unsplash.com/photo-1560769629-975ec94e6a86?w=500&amp;q=80"/>
+<div class="product-badge badge-new">New</div>
+<button class="wishlist-btn">♡</button>
+<div class="product-actions"><button>Quick View</button><button>Add to Bag</button></div>
+</div>
+<div class="product-info">
+<div class="product-category">Mules</div>
+<div class="product-name">Pointed Toe Mule</div>
+<div class="product-price">$78.00</div>
+<div class="shoe-sizes"><span class="shoe-sz avail">6</span><span class="shoe-sz avail">7</span><span class="shoe-sz avail">8</span><span class="shoe-sz avail">9</span><span class="shoe-sz avail">10</span><span class="shoe-sz avail">11</span></div>
+</div>
+</div>
+<!-- Editorial -->
+<div class="editorial-card reveal">
+<img alt="Shoe edit" decoding="async" loading="lazy" src="https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=1400&amp;q=80"/>
+<div class="editorial-card-content">
+<div>
+<div style="font-size:.58rem;letter-spacing:.4em;text-transform:uppercase;color:var(--gold);margin-bottom:.7rem;">The Evening Edit</div>
+<h3>Walk in like you<br/><em>own the room</em></h3>
+</div>
+<a class="btn-outline" href="#">Shop Heels →</a>
+</div>
+</div>
+<div class="product-card reveal">
+<div class="product-img">
+<img alt="Platform Sneaker" decoding="async" loading="lazy" src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500&amp;q=80"/>
+<div class="product-badge badge-new">New</div>
+<button class="wishlist-btn">♡</button>
+<div class="product-actions"><button>Quick View</button><button>Add to Bag</button></div>
+</div>
+<div class="product-info">
+<div class="product-category">Sneakers</div>
+<div class="product-name">Platform Court Sneaker</div>
+<div class="product-price">$88.00</div>
+<div class="shoe-sizes"><span class="shoe-sz avail">6</span><span class="shoe-sz avail">7</span><span class="shoe-sz avail">8</span><span class="shoe-sz">9</span><span class="shoe-sz avail">10</span></div>
+</div>
+</div>
+<div class="product-card reveal">
+<div class="product-img">
+<img alt="Block Heel Sandal" decoding="async" loading="lazy" src="https://images.unsplash.com/photo-1603808033192-082d6919d3e1?w=500&amp;q=80"/>
+<div class="product-badge badge-sale">Sale</div>
+<button class="wishlist-btn">♡</button>
+<div class="product-actions"><button>Quick View</button><button>Add to Bag</button></div>
+</div>
+<div class="product-info">
+<div class="product-category">Sandals</div>
+<div class="product-name">Block Heel Ankle Sandal</div>
+<div class="product-price">$62.00 <span class="old">$85.00</span></div>
+<div class="shoe-sizes"><span class="shoe-sz avail">6</span><span class="shoe-sz avail">7</span><span class="shoe-sz avail">8</span><span class="shoe-sz avail">9</span><span class="shoe-sz avail">10</span></div>
+</div>
+</div>
+<div class="product-card reveal">
+<div class="product-img">
+<img alt="Ballet Flat" decoding="async" loading="lazy" src="https://images.unsplash.com/photo-1551107696-a4b0c5a0d9a2?w=500&amp;q=80"/>
+<div class="product-badge badge-hot">Best Seller</div>
+<button class="wishlist-btn">♡</button>
+<div class="product-actions"><button>Quick View</button><button>Add to Bag</button></div>
+</div>
+<div class="product-info">
+<div class="product-category">Flats</div>
+<div class="product-name">Satin Ballet Flat</div>
+<div class="product-price">$55.00</div>
+<div class="shoe-sizes"><span class="shoe-sz avail">5.5</span><span class="shoe-sz avail">6</span><span class="shoe-sz avail">7</span><span class="shoe-sz avail">8</span><span class="shoe-sz avail">9</span><span class="shoe-sz avail">10</span></div>
+</div>
+</div>
+</div>
+<div class="pagination reveal">
+<button class="page-btn wide">← Prev</button>
+<button class="page-btn active">1</button>
+<button class="page-btn">2</button>
+<button class="page-btn">3</button>
+<button class="page-btn">…</button>
+<button class="page-btn wide">Next →</button>
+</div>
+</div>
+</div>
+<!-- Shoe care strip -->
+<div class="care-strip">
+<div class="care-item reveal">
+<span class="care-icon">📦</span>
+<div class="care-title">Free Returns</div>
+<div class="care-desc">Wrong size? No problem. Free returns and exchanges within 30 days.</div>
+</div>
+<div class="care-item reveal">
+<span class="care-icon">✦</span>
+<div class="care-title">Size Guide</div>
+<div class="care-desc">Not sure of your size? Our detailed guide covers US, EU &amp; UK sizing.</div>
+</div>
+<div class="care-item reveal">
+<span class="care-icon">♡</span>
+<div class="care-title">Wide Fit Available</div>
+<div class="care-desc">Many styles available in wide fit — look for the W label on the product.</div>
+</div>
+<div class="care-item reveal">
+<span class="care-icon">◈</span>
+<div class="care-title">Shoe Care Tips</div>
+<div class="care-desc">Every shoe ships with care instructions so your pair stays looking flawless.</div>
+</div>
+</div>
+<footer>
+<div class="footer-grid">
+<div class="footer-brand"><span class="logotype"><em>L'Moni</em> Maison de Mode</span><p>Where Luxury Meets Identity. Luxury fashion, beauty, gifts, and signature accessories curated for the woman who leads with presence and purpose.</p><div class="social-links"><a aria-label="Facebook" class="social-link" href="https://www.facebook.com/" rel="noopener noreferrer" target="_blank">f</a><a aria-label="Instagram" class="social-link" href="https://www.instagram.com/" rel="noopener noreferrer" target="_blank">ig</a><a aria-label="X" class="social-link" href="https://x.com/" rel="noopener noreferrer" target="_blank">tw</a><a aria-label="TikTok" class="social-link" href="https://www.tiktok.com/" rel="noopener noreferrer" target="_blank">tk</a></div></div>
+<div class="footer-col"><h4>Shop</h4><ul><li><a href="new-arrivals.html">New Arrivals</a></li><li><a href="ready-to-wear.html">Ready-to-Wear</a></li><li><a href="shoes.html">Shoes</a></li><li><a href="#">Bags &amp; Wallets</a></li><li><a href="sale.html">Sale</a></li></ul></div>
+<div class="footer-col"><h4>Help</h4><ul><li><a href="size-guide.html">Size Guide</a></li><li><a href="shipping-returns.html">Shipping Info</a></li><li><a href="shipping-returns.html#returns">Returns</a></li><li><a href="track-order.html">Track Order</a></li><li><a href="contact.html">Contact Us</a></li></ul></div>
+<div class="footer-col"><h4>The Maison</h4><ul><li><a href="maison-lmoni-about.html">Our Story</a></li><li><a href="muse-wall.html">Muse Wall</a></li><li><a href="giving-back.html">Giving Back</a></li><li><a href="lookbook.html">Lookbook</a></li><li><a href="privacy-policy.html">Privacy Policy</a></li></ul></div>
+</div>
+<div class="footer-bottom"><p>© 2026 L'Moni Maison de Mode · Lil'Monii's Enterprise LLC · San Antonio, TX</p><p>Designed for the woman who knows her worth.</p></div>
+</footer>
+<script>
+  const cursor=document.getElementById('cursor'),ring=document.getElementById('cursorRing');
+  let mx=0,my=0,rx=0,ry=0;
+  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cursor.style.left=mx+'px';cursor.style.top=my+'px';});
+  function animRing(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animRing);}
+  animRing();
+  document.querySelectorAll('a,button,select').forEach(el=>{
+    el.addEventListener('mouseenter',()=>{cursor.style.width='20px';cursor.style.height='20px';ring.style.width='50px';ring.style.height='50px';ring.style.opacity='.4';});
+    el.addEventListener('mouseleave',()=>{cursor.style.width='10px';cursor.style.height='10px';ring.style.width='36px';ring.style.height='36px';ring.style.opacity='.6';});
+  });
+  document.querySelectorAll('.pill').forEach(p=>{
+    p.addEventListener('click',()=>{document.querySelectorAll('.pill').forEach(x=>x.classList.remove('active'));p.classList.add('active');});
+  });
+  document.querySelectorAll('.heel-btn').forEach(b=>{
+    b.addEventListener('click',()=>{document.querySelectorAll('.heel-btn').forEach(x=>x.classList.remove('active'));b.classList.add('active');});
+  });
+  document.querySelectorAll('.size-box').forEach(b=>{
+    b.addEventListener('click',()=>b.classList.toggle('active'));
+  });
+  const reveals=document.querySelectorAll('.reveal');
+  const obs=new IntersectionObserver(entries=>{entries.forEach((e,i)=>{if(e.isIntersecting){setTimeout(()=>e.target.classList.add('visible'),i*80);obs.unobserve(e.target);}});},{threshold:.08});
+  reveals.forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>

@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Travel &amp; Home — L'Moni Maison de Mode</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&amp;family=Raleway:wght@200;300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<style>
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    :root { --noir:#0c0b0b; --cream:#f7f2ea; --gold:#b8965a; --gold-light:#d4b483; --muted:#5c5147; --white:#fdfaf6; --dark2:#0f0e0d; --dark3:#141210; }
+    html { scroll-behavior:smooth; }
+    body { background:var(--noir); color:var(--cream); font-family:'Raleway',sans-serif; font-weight:300; overflow-x:hidden; cursor:none; }
+
+    .cursor { width:10px; height:10px; background:var(--gold); border-radius:50%; position:fixed; pointer-events:none; z-index:9999; transform:translate(-50%,-50%); transition:width .3s,height .3s; }
+    .cursor-ring { width:36px; height:36px; border:1px solid var(--gold-light); border-radius:50%; position:fixed; pointer-events:none; z-index:9998; transform:translate(-50%,-50%); transition:width .3s,height .3s,opacity .3s; opacity:.6; }
+
+    .marquee-bar { background:var(--gold); color:var(--noir); font-size:.65rem; letter-spacing:.3em; text-transform:uppercase; padding:8px 0; overflow:hidden; white-space:nowrap; }
+    .marquee-track { display:inline-block; animation:marquee 30s linear infinite; }
+    .marquee-track span { margin:0 3rem; }
+    @keyframes marquee { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+    nav { position:sticky; top:0; z-index:100; display:flex; align-items:center; justify-content:space-between; padding:1.2rem 4rem; background:rgba(12,11,11,.95); backdrop-filter:blur(14px); border-bottom:1px solid rgba(184,150,90,.18); }
+    .nav-links { display:flex; gap:2.4rem; list-style:none; }
+    .nav-links a { color:var(--cream); text-decoration:none; font-size:.72rem; letter-spacing:.2em; text-transform:uppercase; font-weight:400; position:relative; padding-bottom:2px; transition:color .3s; }
+    .nav-links a::after { content:''; position:absolute; bottom:0; left:0; width:0; height:1px; background:var(--gold); transition:width .35s; }
+    .nav-links a:hover { color:var(--gold-light); }
+    .nav-links a:hover::after { width:100%; }
+    .nav-logo { text-align:center; flex:1; }
+    .nav-logo .logotype { font-family:'Cormorant Garamond',serif; font-size:1.55rem; font-weight:300; letter-spacing:.12em; color:var(--white); }
+    .nav-logo .logotype em { font-style:italic; color:var(--gold); }
+    .nav-logo .sub { font-size:.55rem; letter-spacing:.45em; text-transform:uppercase; color:var(--muted); margin-top:1px; }
+    .nav-actions { display:flex; gap:1.5rem; align-items:center; }
+    .nav-icon { font-size:1rem; color:var(--cream); cursor:none; transition:color .3s; text-decoration:none; }
+    .nav-icon:hover { color:var(--gold); }
+
+    /* ── CINEMATIC HERO ── */
+    .page-hero {
+      position:relative;
+      height:80vh;
+      overflow:hidden;
+      display:flex;
+      align-items:flex-end;
+    }
+    .page-hero-bg { position:absolute; inset:0; }
+    .page-hero-bg img { width:100%; height:100%; object-fit:cover; object-position:center 40%; filter:brightness(.22) saturate(.6); transition:transform 12s ease; }
+    .page-hero:hover .page-hero-bg img { transform:scale(1.04); }
+    .page-hero-bg::after { content:''; position:absolute; inset:0; background:linear-gradient(to top, var(--noir) 0%, transparent 55%); }
+    .hero-watermark { position:absolute; bottom:-2rem; right:1rem; font-family:'Cormorant Garamond',serif; font-size:clamp(7rem,16vw,18rem); font-weight:600; color:rgba(184,150,90,.05); line-height:1; pointer-events:none; z-index:1; letter-spacing:-.02em; white-space:nowrap; }
+    .page-hero-content { position:relative; z-index:2; padding:5rem 6rem; width:100%; display:grid; grid-template-columns:1fr 1fr; align-items:flex-end; gap:4rem; }
+    .breadcrumb { font-size:.62rem; letter-spacing:.3em; text-transform:uppercase; color:var(--gold); display:flex; align-items:center; gap:.7rem; margin-bottom:1rem; }
+    .breadcrumb a { color:var(--muted); text-decoration:none; transition:color .3s; }
+    .breadcrumb a:hover { color:var(--gold); }
+    .page-hero h1 { font-family:'Cormorant Garamond',serif; font-size:clamp(3rem,5.5vw,5rem); font-weight:300; line-height:1.05; color:var(--white); }
+    .page-hero h1 em { font-style:italic; color:var(--gold-light); }
+    .hero-right p { font-size:.8rem; line-height:2; color:rgba(247,242,234,.5); margin-bottom:2rem; }
+    .btn-primary { display:inline-flex; align-items:center; gap:1rem; background:var(--gold); color:var(--noir); text-decoration:none; font-size:.68rem; letter-spacing:.3em; text-transform:uppercase; font-weight:600; padding:1rem 2.2rem; transition:background .3s,gap .3s; }
+    .btn-primary:hover { background:var(--gold-light); gap:1.5rem; }
+    .btn-outline { display:inline-flex; align-items:center; gap:1rem; background:transparent; color:var(--cream); text-decoration:none; font-size:.65rem; letter-spacing:.25em; text-transform:uppercase; padding:.9rem 2rem; border:1px solid rgba(247,242,234,.25); transition:border-color .3s,color .3s,gap .3s; }
+    .btn-outline:hover { border-color:var(--gold); color:var(--gold); gap:1.5rem; }
+
+    /* ── WORLD STRIP ── */
+    .world-strip {
+      background:var(--dark3);
+      padding:2.5rem 4rem;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      border-bottom:1px solid rgba(184,150,90,.12);
+      gap:2rem;
+      overflow-x:auto;
+    }
+    .world-item { display:flex; flex-direction:column; align-items:center; gap:.4rem; flex-shrink:0; }
+    .world-icon { font-size:1.4rem; }
+    .world-label { font-size:.55rem; letter-spacing:.3em; text-transform:uppercase; color:var(--muted); }
+    .world-divider { width:1px; height:40px; background:rgba(184,150,90,.15); flex-shrink:0; }
+
+    /* ── DUAL SUBCATEGORY ── */
+    .subcat-dual {
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:2px;
+      background:rgba(184,150,90,.07);
+      height:60vh;
+    }
+    .dual-panel { position:relative; overflow:hidden; cursor:none; }
+    .dual-panel img { width:100%; height:100%; object-fit:cover; object-position:center; filter:brightness(.35) saturate(.6); transition:transform .7s,filter .7s; }
+    .dual-panel:hover img { transform:scale(1.06); filter:brightness(.22) saturate(.5); }
+    .dual-overlay { position:absolute; inset:0; display:flex; flex-direction:column; justify-content:flex-end; padding:3rem; background:linear-gradient(to top, rgba(12,11,11,.92) 0%, transparent 55%); }
+    .dual-tag { font-size:.5rem; letter-spacing:.25em; text-transform:uppercase; background:var(--gold); color:var(--noir); padding:.2rem .6rem; margin-bottom:.8rem; display:inline-block; font-weight:600; }
+    .dual-name { font-family:'Cormorant Garamond',serif; font-size:2.8rem; font-weight:300; color:var(--white); margin-bottom:.5rem; line-height:1; }
+    .dual-desc { font-size:.6rem; letter-spacing:.25em; text-transform:uppercase; color:var(--gold-light); margin-bottom:1.5rem; }
+    .dual-subcats { display:flex; flex-wrap:wrap; gap:.5rem; }
+    .dual-subcat { font-size:.55rem; letter-spacing:.18em; text-transform:uppercase; color:rgba(247,242,234,.5); border:1px solid rgba(184,150,90,.2); padding:.3rem .7rem; transition:all .3s; cursor:none; }
+    .dual-panel:hover .dual-subcat { color:var(--cream); border-color:rgba(184,150,90,.4); }
+    .dual-arrow { position:absolute; top:1.5rem; right:1.5rem; width:42px; height:42px; border:1px solid rgba(247,242,234,.2); display:flex; align-items:center; justify-content:center; color:var(--cream); opacity:0; transform:translateY(5px); transition:opacity .3s,transform .3s; }
+    .dual-panel:hover .dual-arrow { opacity:1; transform:translateY(0); }
+
+    /* ── FILTER BAR ── */
+    .filter-bar { background:var(--dark2); border-top:1px solid rgba(184,150,90,.12); border-bottom:1px solid rgba(184,150,90,.12); padding:1.2rem 4rem; display:flex; align-items:center; justify-content:space-between; gap:1rem; }
+    .filter-pills { display:flex; gap:.5rem; flex-wrap:wrap; }
+    .pill { background:transparent; border:1px solid rgba(184,150,90,.2); color:var(--muted); padding:.4rem 1rem; font-family:'Raleway',sans-serif; font-size:.6rem; letter-spacing:.2em; text-transform:uppercase; cursor:none; transition:all .3s; white-space:nowrap; }
+    .pill:hover,.pill.active { background:var(--gold); color:var(--noir); border-color:var(--gold); }
+    .sort-select { background:transparent; border:1px solid rgba(184,150,90,.22); color:var(--cream); padding:.42rem 1rem; font-family:'Raleway',sans-serif; font-size:.62rem; cursor:none; outline:none; flex-shrink:0; }
+    .sort-select option { background:var(--dark3); }
+
+    /* ── SHOP LAYOUT ── */
+    .shop-layout { display:grid; grid-template-columns:220px 1fr; }
+    .sidebar { background:var(--dark3); border-right:1px solid rgba(184,150,90,.1); padding:2.5rem 1.8rem; position:sticky; top:67px; height:fit-content; }
+    .sidebar-section { margin-bottom:2.2rem; }
+    .sidebar-title { font-size:.58rem; letter-spacing:.4em; text-transform:uppercase; color:var(--gold); margin-bottom:1rem; }
+    .sidebar-divider { border:none; border-top:1px solid rgba(184,150,90,.1); margin-bottom:2.2rem; }
+    .filter-option { display:flex; align-items:center; gap:.8rem; margin-bottom:.85rem; cursor:none; }
+    .filter-checkbox { width:14px; height:14px; border:1px solid rgba(184,150,90,.35); appearance:none; cursor:none; position:relative; flex-shrink:0; transition:background .3s; }
+    .filter-checkbox:checked { background:var(--gold); border-color:var(--gold); }
+    .filter-checkbox:checked::after { content:'✓'; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); color:var(--noir); font-size:.55rem; font-weight:700; }
+    .filter-label { font-size:.7rem; color:rgba(247,242,234,.55); transition:color .3s; }
+    .filter-option:hover .filter-label { color:var(--cream); }
+    .filter-count { margin-left:auto; font-size:.58rem; color:var(--muted); }
+    .price-range { display:flex; justify-content:space-between; font-size:.65rem; color:var(--muted); margin-bottom:.7rem; }
+    .range-input { width:100%; appearance:none; height:2px; background:linear-gradient(to right,var(--gold) 55%,rgba(184,150,90,.2) 55%); outline:none; cursor:none; }
+    .range-input::-webkit-slider-thumb { appearance:none; width:13px; height:13px; background:var(--gold); border-radius:50%; cursor:none; }
+    .clear-btn { width:100%; background:transparent; border:1px solid rgba(184,150,90,.18); color:var(--muted); padding:.55rem; font-family:'Raleway',sans-serif; font-size:.58rem; letter-spacing:.22em; text-transform:uppercase; cursor:none; transition:all .3s; }
+    .clear-btn:hover { border-color:var(--gold); color:var(--gold); }
+
+    /* ── PRODUCTS ── */
+    .product-area { padding:2.5rem 3rem; }
+    .results-bar { display:flex; justify-content:space-between; margin-bottom:2rem; padding-bottom:1rem; border-bottom:1px solid rgba(184,150,90,.1); }
+    .results-bar span { font-size:.7rem; color:var(--muted); }
+    .results-bar strong { color:var(--gold-light); }
+    .products-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1.6rem; }
+    .product-card { position:relative; cursor:none; }
+    .product-img { position:relative; overflow:hidden; aspect-ratio:1/1; background:var(--dark3); margin-bottom:.9rem; }
+    .product-img img { width:100%; height:100%; object-fit:cover; object-position:center; transition:transform .65s ease; filter:brightness(.88); }
+    .product-card:hover .product-img img { transform:scale(1.07); }
+    .product-badge { position:absolute; top:.9rem; left:.9rem; font-size:.5rem; letter-spacing:.2em; text-transform:uppercase; padding:.25rem .65rem; font-weight:600; z-index:2; }
+    .badge-new { background:var(--gold); color:var(--noir); }
+    .badge-sale { background:#7a3030; color:var(--cream); }
+    .badge-hot { background:transparent; color:var(--gold); border:1px solid var(--gold); }
+    .badge-ltd { background:var(--dark3); color:var(--gold-light); border:1px solid rgba(184,150,90,.4); }
+    .wishlist-btn { position:absolute; top:.9rem; right:.9rem; width:32px; height:32px; background:rgba(12,11,11,.65); backdrop-filter:blur(6px); border:1px solid rgba(184,150,90,.2); color:var(--cream); font-size:.8rem; display:flex; align-items:center; justify-content:center; cursor:none; opacity:0; transition:opacity .3s; z-index:2; }
+    .product-card:hover .wishlist-btn { opacity:1; }
+    .wishlist-btn:hover { color:var(--gold); border-color:var(--gold); }
+    .product-actions { position:absolute; bottom:0; left:0; right:0; display:flex; transform:translateY(100%); transition:transform .35s ease; z-index:2; }
+    .product-card:hover .product-actions { transform:translateY(0); }
+    .product-actions button { flex:1; background:rgba(12,11,11,.9); backdrop-filter:blur(8px); color:var(--cream); border:none; border-top:1px solid rgba(184,150,90,.2); padding:.8rem .4rem; font-family:'Raleway',sans-serif; font-size:.57rem; letter-spacing:.18em; text-transform:uppercase; cursor:none; transition:background .3s,color .3s; }
+    .product-actions button:first-child { border-right:1px solid rgba(184,150,90,.15); }
+    .product-actions button:hover { background:var(--gold); color:var(--noir); }
+    .product-info { padding:0 .15rem; }
+    .product-category { font-size:.57rem; letter-spacing:.28em; text-transform:uppercase; color:var(--muted); margin-bottom:.3rem; }
+    .product-name { font-family:'Cormorant Garamond',serif; font-size:1.05rem; font-weight:400; color:var(--cream); margin-bottom:.35rem; }
+    .product-price { font-size:.72rem; letter-spacing:.1em; color:var(--gold); }
+    .product-price .old { text-decoration:line-through; color:var(--muted); margin-left:.4rem; font-size:.65rem; }
+    .product-detail { font-size:.57rem; color:rgba(247,242,234,.32); margin-top:.3rem; letter-spacing:.05em; }
+
+    /* Wide editorial */
+    .editorial-card { grid-column:span 3; position:relative; height:280px; overflow:hidden; display:flex; align-items:center; }
+    .editorial-card img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center 30%; filter:brightness(.22) saturate(.45); transition:transform 7s ease; }
+    .editorial-card:hover img { transform:scale(1.03); }
+    .editorial-card-content { position:relative; z-index:2; padding:3rem; display:flex; justify-content:space-between; align-items:center; width:100%; }
+    .editorial-card-content h3 { font-family:'Cormorant Garamond',serif; font-size:2.4rem; font-weight:300; color:var(--white); line-height:1.1; }
+    .editorial-card-content h3 em { font-style:italic; color:var(--gold-light); }
+
+    .pagination { display:flex; justify-content:center; align-items:center; gap:.4rem; padding:3rem 0; }
+    .page-btn { width:36px; height:36px; background:transparent; border:1px solid rgba(184,150,90,.18); color:var(--muted); font-family:'Raleway',sans-serif; font-size:.7rem; cursor:none; transition:all .3s; display:flex; align-items:center; justify-content:center; }
+    .page-btn:hover,.page-btn.active { background:var(--gold); color:var(--noir); border-color:var(--gold); }
+    .page-btn.wide { width:auto; padding:0 1.1rem; font-size:.6rem; letter-spacing:.18em; text-transform:uppercase; }
+
+    /* ── LIFESTYLE EDITORIAL ── */
+    .lifestyle-section {
+      background:var(--dark2);
+      padding:6rem 4rem;
+      border-top:1px solid rgba(184,150,90,.1);
+    }
+    .lifestyle-grid {
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:2px;
+      margin-top:3rem;
+      background:rgba(184,150,90,.07);
+    }
+    .lifestyle-tile { position:relative; overflow:hidden; aspect-ratio:3/4; cursor:none; }
+    .lifestyle-tile img { width:100%; height:100%; object-fit:cover; object-position:center; filter:brightness(.6) saturate(.7); transition:transform .7s,filter .5s; }
+    .lifestyle-tile:hover img { transform:scale(1.06); filter:brightness(.42) saturate(.55); }
+    .lifestyle-tile-overlay { position:absolute; inset:0; display:flex; flex-direction:column; justify-content:flex-end; padding:2rem; background:linear-gradient(to top, rgba(12,11,11,.88) 0%, transparent 55%); }
+    .lifestyle-tile-cat { font-size:.52rem; letter-spacing:.3em; text-transform:uppercase; color:var(--gold); margin-bottom:.4rem; }
+    .lifestyle-tile-name { font-family:'Cormorant Garamond',serif; font-size:1.4rem; color:var(--white); margin-bottom:.3rem; }
+    .lifestyle-tile-arrow { font-size:.7rem; color:var(--gold-light); opacity:0; transition:opacity .3s; }
+    .lifestyle-tile:hover .lifestyle-tile-arrow { opacity:1; }
+
+    /* ── HOME SCENT BANNER ── */
+    .home-banner {
+      position:relative;
+      min-height:55vh;
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      overflow:hidden;
+    }
+    .home-banner-img { position:relative; overflow:hidden; }
+    .home-banner-img img { width:100%; height:100%; object-fit:cover; object-position:center; filter:brightness(.45) saturate(.65); transition:transform 9s ease; }
+    .home-banner:hover .home-banner-img img { transform:scale(1.04); }
+    .home-banner-img::after { content:''; position:absolute; inset:0; background:linear-gradient(to right, transparent 60%, var(--noir) 100%); }
+    .home-banner-text { padding:5rem 4rem; display:flex; flex-direction:column; justify-content:center; }
+    .section-tag { font-size:.62rem; letter-spacing:.45em; text-transform:uppercase; color:var(--gold); display:flex; align-items:center; gap:1rem; margin-bottom:.8rem; }
+    .section-tag::before { content:''; width:30px; height:1px; background:var(--gold); }
+    .section-title { font-family:'Cormorant Garamond',serif; font-size:clamp(2rem,3.5vw,3rem); font-weight:300; color:var(--white); line-height:1.15; margin-bottom:1.2rem; }
+    .section-title em { font-style:italic; color:var(--gold-light); }
+    .home-banner-text p { font-size:.78rem; line-height:2; color:rgba(247,242,234,.5); max-width:400px; margin-bottom:2rem; }
+    /* Home features */
+    .home-features { display:flex; flex-direction:column; gap:.9rem; margin-bottom:2rem; }
+    .home-feature { display:flex; align-items:center; gap:1rem; font-size:.72rem; color:rgba(247,242,234,.55); }
+    .home-feature::before { content:'✦'; color:var(--gold); font-size:.5rem; flex-shrink:0; }
+
+    /* Footer */
+    footer { background:#080707; padding:5rem 4rem 2rem; border-top:1px solid rgba(184,150,90,.1); }
+    .footer-grid { display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:4rem; margin-bottom:4rem; }
+    .footer-brand .logotype { font-family:'Cormorant Garamond',serif; font-size:1.6rem; font-weight:300; color:var(--white); margin-bottom:1.2rem; display:block; }
+    .footer-brand .logotype em { font-style:italic; color:var(--gold); }
+    .footer-brand p { font-size:.75rem; line-height:1.9; color:var(--muted); max-width:280px; margin-bottom:1.8rem; }
+    .social-links { display:flex; gap:1rem; }
+    .social-link { width:36px; height:36px; border:1px solid rgba(184,150,90,.25); display:flex; align-items:center; justify-content:center; color:var(--muted); text-decoration:none; font-size:.8rem; transition:border-color .3s,color .3s; }
+    .social-link:hover { border-color:var(--gold); color:var(--gold); }
+    .footer-col h4 { font-size:.65rem; letter-spacing:.35em; text-transform:uppercase; color:var(--gold); margin-bottom:1.5rem; }
+    .footer-col ul { list-style:none; }
+    .footer-col ul li { margin-bottom:.8rem; }
+    .footer-col ul li a { font-size:.77rem; color:var(--muted); text-decoration:none; transition:color .3s; }
+    .footer-col ul li a:hover { color:var(--gold-light); }
+    .footer-bottom { border-top:1px solid rgba(184,150,90,.1); padding-top:2rem; display:flex; justify-content:space-between; }
+    .footer-bottom p { font-size:.65rem; color:var(--muted); letter-spacing:.1em; }
+
+    .reveal { opacity:0; transform:translateY(30px); transition:opacity .7s ease,transform .7s ease; }
+    .reveal.visible { opacity:1; transform:translateY(0); }
+    .reveal-left { opacity:0; transform:translateX(-30px); transition:opacity .8s ease,transform .8s ease; }
+    .reveal-left.visible { opacity:1; transform:translateX(0); }
+    .reveal-right { opacity:0; transform:translateX(30px); transition:opacity .8s ease,transform .8s ease; }
+    .reveal-right.visible { opacity:1; transform:translateX(0); }
+
+    @media(max-width:1100px){
+      .page-hero-content { grid-template-columns:1fr; gap:1.5rem; padding:3rem 2rem; }
+      .subcat-dual { grid-template-columns:1fr; height:auto; }
+      .dual-panel { height:55vw; }
+      .shop-layout { grid-template-columns:1fr; }
+      .sidebar { position:static; display:flex; flex-wrap:wrap; gap:1.5rem; }
+      .sidebar-section { min-width:150px; margin-bottom:0; }
+      .products-grid { grid-template-columns:repeat(2,1fr); }
+      .editorial-card { grid-column:span 2; }
+      .lifestyle-grid { grid-template-columns:repeat(2,1fr); }
+      .home-banner { grid-template-columns:1fr; }
+      .home-banner-img { height:45vw; }
+      .footer-grid { grid-template-columns:1fr 1fr; gap:2rem; }
+    }
+    @media(max-width:768px){
+      nav { padding:1rem 1.5rem; }
+      .nav-links { display:none; }
+      .world-strip { padding:1.5rem; }
+      .filter-bar { padding:1rem 1.5rem; }
+      .product-area { padding:1.5rem; }
+      .lifestyle-section { padding:3rem 1.5rem; }
+      .home-banner-text { padding:3rem 1.5rem; }
+      footer { padding:3rem 1.5rem 2rem; }
+    }
+  
+@media (pointer: coarse) { body, .nav-icon, .mpill, .muse-card, .load-more-btn { cursor: auto !important; } .cursor, .cursor-ring { display: none !important; } }
+html:focus-within { scroll-behavior: smooth; }
+</style>
+<meta content="index,follow" name="robots"/><meta content="#0c0b0b" name="theme-color"/><meta content="website" property="og:type"/><meta content="L'Moni Maison de Mode" property="og:site_name"/><meta content="en_US" property="og:locale"/><meta content="summary_large_image" name="twitter:card"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://images.unsplash.com" rel="preconnect"/><meta content="Shop travel and home pieces with refined details, giftable luxury, and L'Moni Maison de Mode aesthetics." name="description"/><meta content="Travel &amp; Home — L'Moni Maison de Mode" property="og:title"/><meta content="Shop travel and home pieces with refined details, giftable luxury, and L'Moni Maison de Mode aesthetics." property="og:description"/><meta content="https://lmonimaison.com/travel-home.html" property="og:url"/><meta content="Travel &amp; Home — L'Moni Maison de Mode" name="twitter:title"/><meta content="Shop travel and home pieces with refined details, giftable luxury, and L'Moni Maison de Mode aesthetics." name="twitter:description"/><link href="https://lmonimaison.com/travel-home.html" rel="canonical"/></head>
+<body>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+<div class="marquee-bar"><div class="marquee-track">
+<span>Travel &amp; Home</span><span>✦</span>
+<span>Luggage · Travel Accessories · Home Décor · Candles · Silk Bedding · Gift Sets</span><span>✦</span>
+<span>Live Beautifully — Everywhere</span><span>✦</span>
+<span>Travel &amp; Home</span><span>✦</span>
+<span>Luggage · Travel Accessories · Home Décor · Candles · Silk Bedding · Gift Sets</span><span>✦</span>
+<span>Live Beautifully — Everywhere</span><span>✦</span>
+</div></div>
+<nav>
+<ul class="nav-links"><li><a href="new-arrivals.html">Shop</a></li><li><a href="ready-to-wear.html">Collections</a></li><li><a href="lookbook.html">Lookbook</a></li></ul>
+<div class="nav-logo"><div class="logotype"><em>L'Moni</em> Maison de Mode</div><div class="sub">San Antonio · Est. 2025</div></div>
+<div class="nav-actions"><a aria-label="Contact the maison" class="nav-icon" href="contact.html">♡</a><a aria-label="Contact the maison" class="nav-icon" href="contact.html">⚲</a><a aria-label="Browse collections" class="nav-icon" href="new-arrivals.html">☰</a></div>
+</nav>
+<!-- Hero -->
+<div class="page-hero">
+<div class="page-hero-bg">
+<img alt="Travel &amp; Home" fetchpriority="high" loading="eager" src="https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=1600&amp;q=80"/>
+</div>
+<div class="hero-watermark">Voyage</div>
+<div class="page-hero-content">
+<div>
+<div class="breadcrumb"><a href="index.html">Home</a><span>›</span><a href="new-arrivals.html">Shop</a><span>›</span> Travel &amp; Home</div>
+<h1>Live Beautifully<br/><em>Everywhere</em><br/>You Go</h1>
+</div>
+<div class="hero-right">
+<p>Your space and your journey deserve the same attention you give your wardrobe. Curated travel accessories, luxe home pieces, and everything that makes life feel extraordinary — wherever you are.</p>
+<a class="btn-primary" href="#shop">Shop the Edit →</a>
+</div>
+</div>
+</div>
+<!-- World icons strip -->
+<div class="world-strip">
+<div class="world-item"><span class="world-icon">✈️</span><span class="world-label">Travel Ready</span></div>
+<div class="world-divider"></div>
+<div class="world-item"><span class="world-icon">🏨</span><span class="world-label">Hotel Glam</span></div>
+<div class="world-divider"></div>
+<div class="world-item"><span class="world-icon">🕯️</span><span class="world-label">Home Ambiance</span></div>
+<div class="world-divider"></div>
+<div class="world-item"><span class="world-icon">🌸</span><span class="world-label">Silk &amp; Softness</span></div>
+<div class="world-divider"></div>
+<div class="world-item"><span class="world-icon">🎁</span><span class="world-label">Gift-Ready Sets</span></div>
+<div class="world-divider"></div>
+<div class="world-item"><span class="world-icon">🏠</span><span class="world-label">Home Décor</span></div>
+<div class="world-divider"></div>
+<div class="world-item"><span class="world-icon">🌍</span><span class="world-label">Destination Style</span></div>
+</div>
+<!-- Dual Subcategory Panel -->
+<div class="subcat-dual" id="shop">
+<div class="dual-panel reveal">
+<img alt="Travel" decoding="async" loading="lazy" src="https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=900&amp;q=80"/>
+<div class="dual-overlay">
+<span class="dual-tag">Featured</span>
+<div class="dual-name">Travel</div>
+<div class="dual-desc">Luggage · Pouches · Passport Holders · Silk Eye Masks</div>
+<div class="dual-subcats">
+<span class="dual-subcat">Luggage Sets</span>
+<span class="dual-subcat">Travel Pouches</span>
+<span class="dual-subcat">Passport Covers</span>
+<span class="dual-subcat">Packing Cubes</span>
+<span class="dual-subcat">Travel Kits</span>
+</div>
+</div>
+<div class="dual-arrow">↗</div>
+</div>
+<div class="dual-panel reveal">
+<img alt="Home" decoding="async" loading="lazy" src="https://images.unsplash.com/photo-1616046229478-9901c5536a45?w=900&amp;q=80"/>
+<div class="dual-overlay">
+<span class="dual-tag">Featured</span>
+<div class="dual-name">Home</div>
+<div class="dual-desc">Candles · Silk Bedding · Décor · Diffusers · Throw Pillows</div>
+<div class="dual-subcats">
+<span class="dual-subcat">Luxury Candles</span>
+<span class="dual-subcat">Silk Pillowcases</span>
+<span class="dual-subcat">Home Fragrance</span>
+<span class="dual-subcat">Décor Pieces</span>
+<span class="dual-subcat">Gift Sets</span>
+</div>
+</div>
+<div class="dual-arrow">↗</div>
+</div>
+</div>
+<!-- Filter Bar -->
+<div class="filter-bar">
+<div class="filter-pills">
+<button class="pill active">All Travel &amp; Home</button>
+<button class="pill">Luggage</button>
+<button class="pill">Travel Accessories</button>
+<button class="pill">Candles &amp; Fragrance</button>
+<button class="pill">Silk &amp; Bedding</button>
+<button class="pill">Home Décor</button>
+<button class="pill">Under $60</button>
+</div>
+<select class="sort-select"><option>Newest First</option><option>Price: Low to High</option><option>Price: High to Low</option><option>Best Sellers</option></select>
+</div>
+<!-- Shop Layout -->
+<div class="shop-layout">
+<aside class="sidebar">
+<div class="sidebar-section">
+<div class="sidebar-title">Category</div>
+<div class="filter-option"><input checked="" class="filter-checkbox" type="checkbox"/><label class="filter-label">All Travel &amp; Home</label><span class="filter-count">110</span></div>
+<div class="filter-option"><input class="filter-checkbox" type="checkbox"/><label class="filter-label">Luggage Sets</label><span class="filter-count">12</span></div>
+<div class="filter-option"><input class="filter-checkbox" type="checkbox"/><label class="filter-label">Travel Accessories</label><span class="filter-count">28</span></div>
+<div class="filter-option"><input class="filter-checkbox" type="checkbox"/><label class="filter-label">Candles &amp; Fragrance</label><span class="filter-count">22</span></div>
+<div class="filter-option"><input class="filter-checkbox" type="checkbox"/><label class="filter-label">Silk &amp; Bedding</label><span class="filter-count">18</span></div>
+<div class="filter-option"><input class="filter-checkbox" type="checkbox"/><label class="filter-label">Home Décor</label><span class="filter-count">20</span></div>
+<div class="filter-option"><input class="filter-checkbox" type="checkbox"/><label class="filter-label">Home Gift Sets</label><span class="filter-count">10</span></div>
+</div>
+<hr class="sidebar-divider"/>
+<div class="sidebar-section">
+<div class="sidebar-title">Travel Type</div>
+<div class="filter-option"><input class="filter-checkbox" type="checkbox"/><label class="filter-label">Weekend Getaway</label></div>
+<div class="filter-option"><input class="filter-checkbox" type="checkbox"/><label class="filter-label">Long Haul Flight</label></div>
+<div class="filter-option"><input class="filter-checkbox" type="checkbox"/><label class="filter-label">Business Travel</label></div>
+<div class="filter-option"><input class="filter-checkbox" type="checkbox"/><label class="filter-label">Vacation &amp; Resort</label></div>
+</div>
+<hr class="sidebar-divider"/>
+<div class="sidebar-section">
+<div class="sidebar-title">Price</div>
+<div class="price-range"><span>$0</span><span>$400</span></div>
+<input class="range-input" max="400" min="0" type="range" value="200">
+</input></div>
+<hr class="sidebar-divider"/>
+<button class="clear-btn">Clear Filters</button>
+</aside>
+<div class="product-area">
+<div class="results-bar"><span>Showing <strong>110</strong> styles</span><span>Travel &amp; Home · Spring 2026</span></div>
+<div class="products-grid">
+<div class="product-card reveal">
+<div class="product-img">
+<img alt="Luxury Carry-On" decoding="async" loading="lazy" src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500&amp;q=80"/>
+<div class="product-badge badge-hot">Best Seller</div>
+<button class="wishlist-btn">♡</button>
+<div class="product-actions"><button>Quick View</button><button>Add to Bag</button></div>
+</div>
+<div class="product-info">
+<div class="product-category">Luggage</div>
+<div class="product-name">Rose Gold Carry-On Set</div>
+<div class="product-price">$285.00</div>
+<div class="product-detail">Hardshell · Spinner Wheels · Rose Gold Hardware</div>
+</div>
+</div>
+<div class="product-card reveal">
+<div class="product-img">
+<img alt="Silk Sleep Set" decoding="async" loading="lazy" src="https://images.unsplash.com/photo-1608248597279-f99d160bfcbc?w=500&amp;q=80"/>
+<div class="product-badge badge-new">New</div>
+<button class="wishlist-btn">♡</button>
+<div class="product-actions"><button>Quick View</button><button>Add to Bag</button></div>
+</div>
+<div class="product-info">
+<div class="product-category">Travel Accessories</div>
+<div class="product-name">Silk Sleep &amp; Travel Set</div>
+<div class="product-price">$68.00</div>
+<div class="product-detail">Eye Mask · Neck Pillow · Ear Plugs · Pouch</div>
+</div>
+</div>
+<div class="product-card reveal">
+<div class="product-img">
+<img alt="Luxury Candle" decoding="async" loading="lazy" src="https://images.unsplash.com/photo-1616046229478-9901c5536a45?w=500&amp;q=80"/>
+<div class="product-badge badge-ltd">Limited</div>
+<button class="wishlist-btn">♡</button>
+<div class="product-actions"><button>Quick View</button><button>Add to Bag</button></div>
+</div>
+<div class="product-info">
+<div class="product-category">Candles &amp; Fragrance</div>
+<div class="product-name">L'Moni Signature Candle</div>
+<div class="product-price">$52.00</div>
+<div class="product-detail">Rose Noir &amp; Amber · 50hr burn · Gold Vessel</div>
+</div>
+</div>
+<!-- Editorial -->
+<div class="editorial-card reveal">
+<img alt="Travel editorial" decoding="async" loading="lazy" src="https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=1400&amp;q=80"/>
+<div class="editorial-card-content">
+<div>
+<div style="font-size:.58rem;letter-spacing:.4em;text-transform:uppercase;color:var(--gold);margin-bottom:.7rem;">The Jet-Set Edit</div>
+<h3>Pack like you<br/><em>own every runway</em></h3>
+</div>
+<a class="btn-outline" href="#" style="border-color:rgba(247,242,234,.3);">Shop Travel →</a>
+</div>
+</div>
+<div class="product-card reveal">
+<div class="product-img">
+<img alt="Silk Pillowcase" decoding="async" loading="lazy" src="https://images.unsplash.com/photo-1614519847469-2c6a83cd7a47?w=500&amp;q=80"/>
+<div class="product-badge badge-new">New</div>
+<button class="wishlist-btn">♡</button>
+<div class="product-actions"><button>Quick View</button><button>Add to Bag</button></div>
+</div>
+<div class="product-info">
+<div class="product-category">Silk &amp; Bedding</div>
+<div class="product-name">Mulberry Silk Pillowcase</div>
+<div class="product-price">$58.00</div>
+<div class="product-detail">100% Mulberry Silk · 6 Colors · Standard &amp; King</div>
+</div>
+</div>
+<div class="product-card reveal">
+<div class="product-img">
+<img alt="Travel Pouch Set" decoding="async" loading="lazy" src="https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=500&amp;q=80"/>
+<div class="product-badge badge-sale">Sale</div>
+<button class="wishlist-btn">♡</button>
+<div class="product-actions"><button>Quick View</button><button>Add to Bag</button></div>
+</div>
+<div class="product-info">
+<div class="product-category">Travel Accessories</div>
+<div class="product-name">Gold Monogram Pouch Set</div>
+<div class="product-price">$42.00 <span class="old">$58.00</span></div>
+<div class="product-detail">3-Piece Set · Cosmetics · Jewelry · Essentials</div>
+</div>
+</div>
+<div class="product-card reveal">
+<div class="product-img">
+<img alt="Reed Diffuser" decoding="async" loading="lazy" src="https://images.unsplash.com/photo-1557170334-a9632e77c6e4?w=500&amp;q=80"/>
+<div class="product-badge badge-new">New</div>
+<button class="wishlist-btn">♡</button>
+<div class="product-actions"><button>Quick View</button><button>Add to Bag</button></div>
+</div>
+<div class="product-info">
+<div class="product-category">Home Fragrance</div>
+<div class="product-name">Amber &amp; Oud Reed Diffuser</div>
+<div class="product-price">$46.00</div>
+<div class="product-detail">200ml · 90-day fragrance · Gold Cap</div>
+</div>
+</div>
+<div class="product-card reveal">
+<div class="product-img">
+<img alt="Passport Holder" decoding="async" loading="lazy" src="https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=500&amp;q=80"/>
+<div class="product-badge badge-hot">Trending</div>
+<button class="wishlist-btn">♡</button>
+<div class="product-actions"><button>Quick View</button><button>Add to Bag</button></div>
+</div>
+<div class="product-info">
+<div class="product-category">Travel Accessories</div>
+<div class="product-name">Leather Passport Holder</div>
+<div class="product-price">$38.00</div>
+<div class="product-detail">Vegan Leather · Card Slots · RFID Protected</div>
+</div>
+</div>
+<div class="product-card reveal">
+<div class="product-img">
+<img alt="Throw Pillow Set" decoding="async" loading="lazy" src="https://images.unsplash.com/photo-1616046229478-9901c5536a45?w=500&amp;q=80"/>
+<div class="product-badge badge-new">New</div>
+<button class="wishlist-btn">♡</button>
+<div class="product-actions"><button>Quick View</button><button>Add to Bag</button></div>
+</div>
+<div class="product-info">
+<div class="product-category">Home Décor</div>
+<div class="product-name">Velvet Throw Pillow Set</div>
+<div class="product-price">$72.00</div>
+<div class="product-detail">Set of 2 · Gold Zipper · Blush / Ivory / Black</div>
+</div>
+</div>
+</div>
+<div class="pagination reveal">
+<button class="page-btn wide">← Prev</button>
+<button class="page-btn active">1</button>
+<button class="page-btn">2</button>
+<button class="page-btn">3</button>
+<button class="page-btn wide">Next →</button>
+</div>
+</div>
+</div>
+<!-- Lifestyle editorial tiles -->
+<section class="lifestyle-section">
+<div class="reveal" style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:0;">
+<div>
+<div class="section-tag">Style Your World</div>
+<div style="font-family:'Cormorant Garamond',serif;font-size:clamp(1.8rem,3vw,2.6rem);font-weight:300;color:var(--white);line-height:1.15;">Your Space, <em style="font-style:italic;color:var(--gold-light);">Your Sanctuary</em></div>
+</div>
+<a class="btn-outline" href="#">View All Home →</a>
+</div>
+<div class="lifestyle-grid">
+<div class="lifestyle-tile reveal">
+<img alt="The Bedroom Edit" decoding="async" loading="lazy" src="https://images.unsplash.com/photo-1616046229478-9901c5536a45?w=600&amp;q=80"/>
+<div class="lifestyle-tile-overlay">
+<div class="lifestyle-tile-cat">Home</div>
+<div class="lifestyle-tile-name">The Bedroom Edit</div>
+<div class="lifestyle-tile-arrow">Shop Now →</div>
+</div>
+</div>
+<div class="lifestyle-tile reveal">
+<img alt="The Jet-Set Edit" decoding="async" loading="lazy" src="https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=600&amp;q=80"/>
+<div class="lifestyle-tile-overlay">
+<div class="lifestyle-tile-cat">Travel</div>
+<div class="lifestyle-tile-name">The Jet-Set Edit</div>
+<div class="lifestyle-tile-arrow">Shop Now →</div>
+</div>
+</div>
+<div class="lifestyle-tile reveal">
+<img alt="The Scent Edit" decoding="async" loading="lazy" src="https://images.unsplash.com/photo-1557170334-a9632e77c6e4?w=600&amp;q=80"/>
+<div class="lifestyle-tile-overlay">
+<div class="lifestyle-tile-cat">Home Fragrance</div>
+<div class="lifestyle-tile-name">The Scent Edit</div>
+<div class="lifestyle-tile-arrow">Shop Now →</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Home Living Banner -->
+<div class="home-banner">
+<div class="home-banner-img reveal-left">
+<img alt="Home Living" decoding="async" loading="lazy" src="https://images.unsplash.com/photo-1616046229478-9901c5536a45?w=900&amp;q=80"/>
+</div>
+<div class="home-banner-text reveal-right">
+<div class="section-tag">Your Home, Your Maison</div>
+<div class="section-title">Create a Space as <em>Beautiful</em> as You</div>
+<p>Your home is your sanctuary. From silk pillowcases that protect your skin while you sleep, to luxury candles that fill every room with intention — we curate home pieces that make everyday life feel like a five-star experience.</p>
+<div class="home-features">
+<div class="home-feature">100% Mulberry Silk bedding for hair &amp; skin</div>
+<div class="home-feature">Hand-poured signature candles — 50+ hour burn time</div>
+<div class="home-feature">Artisan reed diffusers for lasting home fragrance</div>
+<div class="home-feature">Velvet &amp; linen décor in L'Moni signature tones</div>
+</div>
+<a class="btn-primary" href="#">Shop Home Living →</a>
+</div>
+</div>
+<footer>
+<div class="footer-grid">
+<div class="footer-brand"><span class="logotype"><em>L'Moni</em> Maison de Mode</span><p>Where Luxury Meets Identity. Luxury fashion, beauty, gifts, and signature accessories curated for the woman who leads with presence and purpose.</p><div class="social-links"><a aria-label="Facebook" class="social-link" href="https://www.facebook.com/" rel="noopener noreferrer" target="_blank">f</a><a aria-label="Instagram" class="social-link" href="https://www.instagram.com/" rel="noopener noreferrer" target="_blank">ig</a><a aria-label="X" class="social-link" href="https://x.com/" rel="noopener noreferrer" target="_blank">tw</a><a aria-label="TikTok" class="social-link" href="https://www.tiktok.com/" rel="noopener noreferrer" target="_blank">tk</a></div></div>
+<div class="footer-col"><h4>Shop</h4><ul><li><a href="new-arrivals.html">New Arrivals</a></li><li><a href="#">Travel</a></li><li><a href="#">Home Living</a></li><li><a href="#">Gift Sets</a></li><li><a href="sale.html">Sale</a></li></ul></div>
+<div class="footer-col"><h4>Help</h4><ul><li><a href="shipping-returns.html">Shipping Info</a></li><li><a href="shipping-returns.html#returns">Returns</a></li><li><a href="track-order.html">Track Order</a></li><li><a href="contact.html">Contact Us</a></li><li><a href="#">FAQ</a></li></ul></div>
+<div class="footer-col"><h4>The Maison</h4><ul><li><a href="maison-lmoni-about.html">Our Story</a></li><li><a href="muse-wall.html">Muse Wall</a></li><li><a href="giving-back.html">Giving Back</a></li><li><a href="lookbook.html">Lookbook</a></li><li><a href="privacy-policy.html">Privacy Policy</a></li></ul></div>
+</div>
+<div class="footer-bottom"><p>© 2026 L'Moni Maison de Mode · Lil'Monii's Enterprise LLC · San Antonio, TX</p><p>Designed for the woman who knows her worth.</p></div>
+</footer>
+<script>
+  const cursor=document.getElementById('cursor'),ring=document.getElementById('cursorRing');
+  let mx=0,my=0,rx=0,ry=0;
+  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cursor.style.left=mx+'px';cursor.style.top=my+'px';});
+  function animRing(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animRing);}
+  animRing();
+  document.querySelectorAll('a,button,select').forEach(el=>{
+    el.addEventListener('mouseenter',()=>{cursor.style.width='20px';cursor.style.height='20px';ring.style.width='50px';ring.style.height='50px';ring.style.opacity='.4';});
+    el.addEventListener('mouseleave',()=>{cursor.style.width='10px';cursor.style.height='10px';ring.style.width='36px';ring.style.height='36px';ring.style.opacity='.6';});
+  });
+  document.querySelectorAll('.pill').forEach(p=>{p.addEventListener('click',()=>{document.querySelectorAll('.pill').forEach(x=>x.classList.remove('active'));p.classList.add('active');});});
+  const reveals=document.querySelectorAll('.reveal,.reveal-left,.reveal-right');
+  const obs=new IntersectionObserver(entries=>{entries.forEach((e,i)=>{if(e.isIntersecting){setTimeout(()=>e.target.classList.add('visible'),i*80);obs.unobserve(e.target);}});},{threshold:.08});
+  reveals.forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>

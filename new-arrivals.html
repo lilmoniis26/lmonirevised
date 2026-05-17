@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>New Arrivals — L'Moni Maison de Mode</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&amp;family=Raleway:wght@200;300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<style>
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    :root {
+      --noir:#0c0b0b; --cream:#f7f2ea; --gold:#b8965a;
+      --gold-light:#d4b483; --muted:#5c5147; --white:#fdfaf6;
+      --dark2:#0f0e0d; --dark3:#141210;
+    }
+    html { scroll-behavior:smooth; }
+    body { background:var(--noir); color:var(--cream); font-family:'Raleway',sans-serif; font-weight:300; overflow-x:hidden; cursor:none; }
+
+    /* Cursor */
+    .cursor { width:10px; height:10px; background:var(--gold); border-radius:50%; position:fixed; pointer-events:none; z-index:9999; transform:translate(-50%,-50%); transition:width .3s,height .3s; }
+    .cursor-ring { width:36px; height:36px; border:1px solid var(--gold-light); border-radius:50%; position:fixed; pointer-events:none; z-index:9998; transform:translate(-50%,-50%); transition:width .3s,height .3s,opacity .3s; opacity:.6; }
+
+    /* Marquee */
+    .marquee-bar { background:var(--gold); color:var(--noir); font-size:.65rem; letter-spacing:.3em; text-transform:uppercase; padding:8px 0; overflow:hidden; white-space:nowrap; }
+    .marquee-track { display:inline-block; animation:marquee 30s linear infinite; }
+    .marquee-track span { margin:0 3rem; }
+    @keyframes marquee { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+    /* NAV */
+    nav { position:sticky; top:0; z-index:100; display:flex; align-items:center; justify-content:space-between; padding:1.2rem 4rem; background:rgba(12,11,11,.95); backdrop-filter:blur(14px); border-bottom:1px solid rgba(184,150,90,.18); }
+    .nav-links { display:flex; gap:2.4rem; list-style:none; }
+    .nav-links a { color:var(--cream); text-decoration:none; font-size:.72rem; letter-spacing:.2em; text-transform:uppercase; font-weight:400; position:relative; padding-bottom:2px; transition:color .3s; }
+    .nav-links a::after { content:''; position:absolute; bottom:0; left:0; width:0; height:1px; background:var(--gold); transition:width .35s; }
+    .nav-links a:hover { color:var(--gold-light); }
+    .nav-links a:hover::after { width:100%; }
+    .nav-logo { text-align:center; flex:1; }
+    .nav-logo .logotype { font-family:'Cormorant Garamond',serif; font-size:1.55rem; font-weight:300; letter-spacing:.12em; color:var(--white); }
+    .nav-logo .logotype em { font-style:italic; color:var(--gold); }
+    .nav-logo .sub { font-size:.55rem; letter-spacing:.45em; text-transform:uppercase; color:var(--muted); margin-top:1px; }
+    .nav-actions { display:flex; gap:1.5rem; align-items:center; }
+    .nav-icon { font-size:1rem; color:var(--cream); cursor:none; transition:color .3s; text-decoration:none; }
+    .nav-icon:hover { color:var(--gold); }
+
+    /* PAGE HERO — slim editorial banner */
+    .page-hero {
+      position:relative;
+      height:52vh;
+      display:flex;
+      align-items:flex-end;
+      overflow:hidden;
+    }
+    .page-hero-bg { position:absolute; inset:0; }
+    .page-hero-bg img { width:100%; height:100%; object-fit:cover; object-position:center 25%; filter:brightness(.28) saturate(.6); }
+    .page-hero-bg::after { content:''; position:absolute; inset:0; background:linear-gradient(to top,var(--noir) 0%,transparent 60%); }
+    .page-hero-content { position:relative; z-index:2; padding:4rem 6rem; width:100%; display:flex; justify-content:space-between; align-items:flex-end; }
+    .page-hero-content h1 { font-family:'Cormorant Garamond',serif; font-size:clamp(3rem,5.5vw,5rem); font-weight:300; line-height:1.05; color:var(--white); }
+    .page-hero-content h1 em { font-style:italic; color:var(--gold-light); }
+    .hero-meta { text-align:right; }
+    .hero-meta .count { font-family:'Cormorant Garamond',serif; font-size:3.5rem; color:var(--gold); font-weight:300; line-height:1; }
+    .hero-meta .count-label { font-size:.6rem; letter-spacing:.35em; text-transform:uppercase; color:var(--muted); }
+    .breadcrumb { font-size:.62rem; letter-spacing:.3em; text-transform:uppercase; color:var(--gold); display:flex; align-items:center; gap:.7rem; margin-bottom:1rem; }
+    .breadcrumb a { color:var(--muted); text-decoration:none; transition:color .3s; }
+    .breadcrumb a:hover { color:var(--gold); }
+
+    /* FILTER BAR */
+    .filter-bar {
+      background:var(--dark2);
+      border-bottom:1px solid rgba(184,150,90,.15);
+      padding:0 4rem;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:2rem;
+      position:sticky;
+      top:67px;
+      z-index:90;
+    }
+    .filter-pills {
+      display:flex;
+      gap:.5rem;
+      padding:1rem 0;
+      overflow-x:auto;
+      scrollbar-width:none;
+    }
+    .filter-pills::-webkit-scrollbar { display:none; }
+    .pill {
+      background:transparent;
+      border:1px solid rgba(184,150,90,.25);
+      color:var(--muted);
+      padding:.45rem 1.1rem;
+      font-family:'Raleway',sans-serif;
+      font-size:.62rem;
+      letter-spacing:.2em;
+      text-transform:uppercase;
+      cursor:none;
+      transition:all .3s;
+      white-space:nowrap;
+    }
+    .pill:hover, .pill.active { background:var(--gold); color:var(--noir); border-color:var(--gold); }
+    .filter-right {
+      display:flex;
+      align-items:center;
+      gap:1.5rem;
+      flex-shrink:0;
+    }
+    .sort-select {
+      background:transparent;
+      border:1px solid rgba(184,150,90,.25);
+      color:var(--cream);
+      padding:.45rem 1rem;
+      font-family:'Raleway',sans-serif;
+      font-size:.62rem;
+      letter-spacing:.15em;
+      cursor:none;
+      outline:none;
+    }
+    .sort-select option { background:var(--dark3); }
+    .grid-toggle { display:flex; gap:.4rem; }
+    .grid-btn {
+      width:30px; height:30px;
+      border:1px solid rgba(184,150,90,.2);
+      background:transparent;
+      color:var(--muted);
+      cursor:none;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:.75rem;
+      transition:all .3s;
+    }
+    .grid-btn.active { background:var(--gold); color:var(--noir); border-color:var(--gold); }
+
+    /* SHOP LAYOUT */
+    .shop-layout {
+      display:grid;
+      grid-template-columns:240px 1fr;
+      min-height:80vh;
+    }
+
+    /* SIDEBAR */
+    .sidebar {
+      background:var(--dark3);
+      border-right:1px solid rgba(184,150,90,.1);
+      padding:2.5rem 1.8rem;
+      position:sticky;
+      top:120px;
+      height:fit-content;
+    }
+    .sidebar-section { margin-bottom:2.5rem; }
+    .sidebar-title {
+      font-size:.6rem;
+      letter-spacing:.4em;
+      text-transform:uppercase;
+      color:var(--gold);
+      margin-bottom:1.2rem;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      cursor:none;
+    }
+    .sidebar-title span { font-size:.7rem; color:var(--muted); transition:color .3s; }
+    .sidebar-title:hover span { color:var(--gold); }
+    .sidebar-divider { border:none; border-top:1px solid rgba(184,150,90,.1); margin-bottom:2.5rem; }
+
+    .filter-option {
+      display:flex;
+      align-items:center;
+      gap:.8rem;
+      margin-bottom:.9rem;
+      cursor:none;
+    }
+    .filter-checkbox {
+      width:14px; height:14px;
+      border:1px solid rgba(184,150,90,.35);
+      appearance:none;
+      cursor:none;
+      position:relative;
+      flex-shrink:0;
+      transition:background .3s,border-color .3s;
+    }
+    .filter-checkbox:checked { background:var(--gold); border-color:var(--gold); }
+    .filter-checkbox:checked::after { content:'✓'; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); color:var(--noir); font-size:.6rem; font-weight:700; }
+    .filter-label { font-size:.72rem; color:rgba(247,242,234,.6); letter-spacing:.05em; transition:color .3s; }
+    .filter-option:hover .filter-label { color:var(--cream); }
+    .filter-count { margin-left:auto; font-size:.6rem; color:var(--muted); }
+
+    /* Color swatches */
+    .color-swatches { display:flex; flex-wrap:wrap; gap:.5rem; }
+    .swatch {
+      width:22px; height:22px;
+      border-radius:50%;
+      border:2px solid transparent;
+      cursor:none;
+      transition:border-color .3s,transform .3s;
+    }
+    .swatch:hover, .swatch.active { border-color:var(--gold); transform:scale(1.15); }
+
+    /* Price slider */
+    .price-range { display:flex; justify-content:space-between; font-size:.68rem; color:var(--muted); margin-bottom:.8rem; }
+    .range-input { width:100%; appearance:none; height:2px; background:linear-gradient(to right,var(--gold) 60%,rgba(184,150,90,.2) 60%); outline:none; cursor:none; }
+    .range-input::-webkit-slider-thumb { appearance:none; width:14px; height:14px; background:var(--gold); border-radius:50%; cursor:none; }
+
+    .clear-btn {
+      width:100%;
+      background:transparent;
+      border:1px solid rgba(184,150,90,.2);
+      color:var(--muted);
+      padding:.6rem;
+      font-family:'Raleway',sans-serif;
+      font-size:.6rem;
+      letter-spacing:.25em;
+      text-transform:uppercase;
+      cursor:none;
+      margin-top:.5rem;
+      transition:all .3s;
+    }
+    .clear-btn:hover { border-color:var(--gold); color:var(--gold); }
+
+    /* PRODUCT GRID */
+    .product-area { padding:2.5rem 3rem; }
+    .results-bar {
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-bottom:2rem;
+      padding-bottom:1rem;
+      border-bottom:1px solid rgba(184,150,90,.1);
+    }
+    .results-bar span { font-size:.7rem; letter-spacing:.1em; color:var(--muted); }
+    .results-bar strong { color:var(--gold-light); }
+
+    .products-grid {
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:1.5rem;
+    }
+    .products-grid.two-col { grid-template-columns:repeat(2,1fr); }
+
+    /* PRODUCT CARD */
+    .product-card { position:relative; cursor:none; }
+    .product-img {
+      position:relative;
+      overflow:hidden;
+      aspect-ratio:3/4;
+      background:#1a1714;
+      margin-bottom:1rem;
+    }
+    .product-img img {
+      width:100%; height:100%;
+      object-fit:cover;
+      object-position:top;
+      transition:transform .65s ease,opacity .4s;
+      filter:brightness(.9);
+    }
+    .product-img .img-alt {
+      position:absolute;
+      inset:0;
+      opacity:0;
+      transition:opacity .5s ease;
+    }
+    .product-img .img-alt img { opacity:1; filter:brightness(.88); }
+    .product-card:hover .product-img img:not(.img-alt img) { transform:scale(1.06); }
+    .product-card:hover .img-alt { opacity:1; }
+
+    .product-badge {
+      position:absolute;
+      top:1rem; left:1rem;
+      font-size:.52rem; letter-spacing:.2em; text-transform:uppercase;
+      padding:.28rem .7rem; font-weight:600; z-index:2;
+    }
+    .badge-new { background:var(--gold); color:var(--noir); }
+    .badge-sale { background:#8b3a3a; color:var(--cream); }
+    .badge-hot { background:var(--dark3); color:var(--gold); border:1px solid var(--gold); }
+
+    .wishlist-btn {
+      position:absolute;
+      top:1rem; right:1rem;
+      width:34px; height:34px;
+      background:rgba(12,11,11,.65);
+      backdrop-filter:blur(6px);
+      border:1px solid rgba(184,150,90,.2);
+      color:var(--cream);
+      font-size:.85rem;
+      display:flex; align-items:center; justify-content:center;
+      cursor:none;
+      opacity:0;
+      transition:opacity .3s,color .3s,border-color .3s;
+      z-index:2;
+    }
+    .product-card:hover .wishlist-btn { opacity:1; }
+    .wishlist-btn:hover { color:var(--gold); border-color:var(--gold); }
+
+    .product-actions {
+      position:absolute;
+      bottom:0; left:0; right:0;
+      display:flex;
+      transform:translateY(100%);
+      transition:transform .35s ease;
+      z-index:2;
+    }
+    .product-card:hover .product-actions { transform:translateY(0); }
+    .product-actions button {
+      flex:1;
+      background:rgba(12,11,11,.9);
+      backdrop-filter:blur(8px);
+      color:var(--cream);
+      border:none; border-top:1px solid rgba(184,150,90,.2);
+      padding:.85rem .5rem;
+      font-family:'Raleway',sans-serif;
+      font-size:.58rem; letter-spacing:.2em; text-transform:uppercase;
+      cursor:none; transition:background .3s,color .3s;
+    }
+    .product-actions button:first-child { border-right:1px solid rgba(184,150,90,.15); }
+    .product-actions button:hover { background:var(--gold); color:var(--noir); }
+
+    .product-info { padding:0 .2rem; }
+    .product-category { font-size:.58rem; letter-spacing:.3em; text-transform:uppercase; color:var(--muted); margin-bottom:.35rem; }
+    .product-name { font-family:'Cormorant Garamond',serif; font-size:1.05rem; font-weight:400; color:var(--cream); margin-bottom:.4rem; line-height:1.2; }
+    .product-price { font-size:.75rem; letter-spacing:.1em; color:var(--gold); }
+    .product-price .old { text-decoration:line-through; color:var(--muted); margin-left:.5rem; font-size:.68rem; }
+    .size-dots { display:flex; gap:.3rem; margin-top:.5rem; }
+    .size-dot { font-size:.52rem; color:var(--muted); letter-spacing:.05em; }
+    .size-dot.avail { color:rgba(247,242,234,.4); }
+
+    /* FEATURED BANNER — mid-grid editorial */
+    .featured-banner {
+      grid-column:1/-1;
+      position:relative;
+      height:320px;
+      overflow:hidden;
+      display:flex;
+      align-items:center;
+      margin:1rem 0;
+    }
+    .featured-banner img {
+      position:absolute; inset:0;
+      width:100%; height:100%;
+      object-fit:cover;
+      object-position:center 30%;
+      filter:brightness(.3) saturate(.6);
+      transition:transform 6s ease;
+    }
+    .featured-banner:hover img { transform:scale(1.04); }
+    .featured-banner-content {
+      position:relative; z-index:2;
+      padding:3rem;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      width:100%;
+    }
+    .featured-banner h3 {
+      font-family:'Cormorant Garamond',serif;
+      font-size:2.4rem; font-weight:300;
+      color:var(--white); line-height:1.1;
+    }
+    .featured-banner h3 em { font-style:italic; color:var(--gold-light); }
+    .btn-outline { display:inline-flex; align-items:center; gap:1rem; background:transparent; color:var(--cream); text-decoration:none; font-size:.65rem; letter-spacing:.28em; text-transform:uppercase; font-weight:400; padding:.9rem 2rem; border:1px solid rgba(247,242,234,.35); transition:border-color .3s,color .3s,gap .3s; }
+    .btn-outline:hover { border-color:var(--gold); color:var(--gold); gap:1.5rem; }
+
+    /* PAGINATION */
+    .pagination {
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      gap:.5rem;
+      padding:3rem 0;
+    }
+    .page-btn {
+      width:38px; height:38px;
+      background:transparent;
+      border:1px solid rgba(184,150,90,.2);
+      color:var(--muted);
+      font-family:'Raleway',sans-serif;
+      font-size:.72rem;
+      cursor:none;
+      transition:all .3s;
+      display:flex; align-items:center; justify-content:center;
+    }
+    .page-btn:hover, .page-btn.active { background:var(--gold); color:var(--noir); border-color:var(--gold); }
+    .page-btn.wide { width:auto; padding:0 1.2rem; letter-spacing:.2em; font-size:.62rem; text-transform:uppercase; }
+
+    /* RECENTLY VIEWED */
+    .recently-viewed {
+      background:var(--dark2);
+      padding:5rem 4rem;
+      border-top:1px solid rgba(184,150,90,.1);
+    }
+    .recently-viewed .section-tag { font-size:.62rem; letter-spacing:.45em; text-transform:uppercase; color:var(--gold); display:flex; align-items:center; gap:1rem; margin-bottom:1rem; }
+    .recently-viewed .section-tag::before { content:''; width:30px; height:1px; background:var(--gold); }
+    .recently-viewed .section-title { font-family:'Cormorant Garamond',serif; font-size:2rem; font-weight:300; color:var(--white); margin-bottom:2.5rem; }
+    .recently-viewed .section-title em { font-style:italic; color:var(--gold-light); }
+    .mini-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:1rem; }
+    .mini-card .mini-img { aspect-ratio:2/3; overflow:hidden; background:#1a1714; margin-bottom:.7rem; }
+    .mini-card .mini-img img { width:100%; height:100%; object-fit:cover; object-position:top; filter:brightness(.85); transition:transform .5s; }
+    .mini-card:hover .mini-img img { transform:scale(1.06); }
+    .mini-card .mini-name { font-family:'Cormorant Garamond',serif; font-size:.9rem; color:var(--cream); }
+    .mini-card .mini-price { font-size:.65rem; color:var(--gold); margin-top:.25rem; }
+
+    /* FOOTER */
+    footer { background:#080707; padding:5rem 4rem 2rem; border-top:1px solid rgba(184,150,90,.1); }
+    .footer-grid { display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:4rem; margin-bottom:4rem; }
+    .footer-brand .logotype { font-family:'Cormorant Garamond',serif; font-size:1.6rem; font-weight:300; color:var(--white); margin-bottom:1.2rem; display:block; }
+    .footer-brand .logotype em { font-style:italic; color:var(--gold); }
+    .footer-brand p { font-size:.75rem; line-height:1.9; color:var(--muted); max-width:280px; margin-bottom:1.8rem; }
+    .social-links { display:flex; gap:1rem; }
+    .social-link { width:36px; height:36px; border:1px solid rgba(184,150,90,.25); display:flex; align-items:center; justify-content:center; color:var(--muted); text-decoration:none; font-size:.8rem; transition:border-color .3s,color .3s; }
+    .social-link:hover { border-color:var(--gold); color:var(--gold); }
+    .footer-col h4 { font-size:.65rem; letter-spacing:.35em; text-transform:uppercase; color:var(--gold); margin-bottom:1.5rem; }
+    .footer-col ul { list-style:none; }
+    .footer-col ul li { margin-bottom:.8rem; }
+    .footer-col ul li a { font-size:.77rem; color:var(--muted); text-decoration:none; transition:color .3s; }
+    .footer-col ul li a:hover { color:var(--gold-light); }
+    .footer-bottom { border-top:1px solid rgba(184,150,90,.1); padding-top:2rem; display:flex; justify-content:space-between; }
+    .footer-bottom p { font-size:.65rem; color:var(--muted); letter-spacing:.1em; }
+
+    /* REVEAL */
+    .reveal { opacity:0; transform:translateY(30px); transition:opacity .7s ease,transform .7s ease; }
+    .reveal.visible { opacity:1; transform:translateY(0); }
+
+    /* RESPONSIVE */
+    @media(max-width:1100px){
+      .shop-layout { grid-template-columns:1fr; }
+      .sidebar { position:static; display:flex; flex-wrap:wrap; gap:1.5rem; padding:1.5rem 2rem; }
+      .sidebar-section { margin-bottom:0; min-width:160px; }
+      .products-grid { grid-template-columns:repeat(2,1fr); }
+      .mini-grid { grid-template-columns:repeat(3,1fr); }
+    }
+    @media(max-width:768px){
+      nav { padding:1rem 1.5rem; }
+      .nav-links { display:none; }
+      .page-hero-content { padding:3rem 2rem; flex-direction:column; align-items:flex-start; gap:1rem; }
+      .filter-bar { padding:0 1.5rem; }
+      .product-area { padding:1.5rem; }
+      .recently-viewed { padding:3rem 1.5rem; }
+      footer { padding:3rem 1.5rem 2rem; }
+      .footer-grid { grid-template-columns:1fr 1fr; gap:2rem; }
+    }
+  
+@media (pointer: coarse) { body, .nav-icon, .mpill, .muse-card, .load-more-btn { cursor: auto !important; } .cursor, .cursor-ring { display: none !important; } }
+html:focus-within { scroll-behavior: smooth; }
+</style>
+<meta content="index,follow" name="robots"/><meta content="#0c0b0b" name="theme-color"/><meta content="website" property="og:type"/><meta content="L'Moni Maison de Mode" property="og:site_name"/><meta content="en_US" property="og:locale"/><meta content="summary_large_image" name="twitter:card"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://images.unsplash.com" rel="preconnect"/><meta content="Explore the latest L'Moni Maison de Mode arrivals, featuring luxury-ready fashion, accessories, and standout seasonal pieces." name="description"/><meta content="New Arrivals — L'Moni Maison de Mode" property="og:title"/><meta content="Explore the latest L'Moni Maison de Mode arrivals, featuring luxury-ready fashion, accessories, and standout seasonal pieces." property="og:description"/><meta content="https://lmonimaison.com/new-arrivals.html" property="og:url"/><meta content="New Arrivals — L'Moni Maison de Mode" name="twitter:title"/><meta content="Explore the latest L'Moni Maison de Mode arrivals, featuring luxury-ready fashion, accessories, and standout seasonal pieces." name="twitter:description"/><link href="https://lmonimaison.com/new-arrivals.html" rel="canonical"/></head>
+<body>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+<!-- Marquee -->
+<div class="marquee-bar">
+<div class="marquee-track">
+<span>New Arrivals — Spring 2026</span><span>✦</span>
+<span>Fresh Styles Every Week</span><span>✦</span>
+<span>Free Shipping Over $75</span><span>✦</span>
+<span>New Arrivals — Spring 2026</span><span>✦</span>
+<span>Fresh Styles Every Week</span><span>✦</span>
+<span>Free Shipping Over $75</span><span>✦</span>
+</div>
+</div>
+<!-- NAV -->
+<nav>
+<ul class="nav-links">
+<li><a href="new-arrivals.html">Shop</a></li>
+<li><a href="ready-to-wear.html">Collections</a></li>
+<li><a href="lookbook.html">Lookbook</a></li>
+</ul>
+<div class="nav-logo">
+<div class="logotype"><em>L'Moni</em> Maison de Mode</div>
+<div class="sub">San Antonio · Est. 2025</div>
+</div>
+<div class="nav-actions">
+<a aria-label="Contact the maison" class="nav-icon" href="contact.html">♡</a>
+<a aria-label="Contact the maison" class="nav-icon" href="contact.html">⚲</a>
+<a aria-label="Browse collections" class="nav-icon" href="new-arrivals.html">☰</a>
+</div>
+</nav>
+<!-- PAGE HERO -->
+<div class="page-hero">
+<div class="page-hero-bg">
+<img alt="New Arrivals" fetchpriority="high" loading="eager" src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=1600&amp;q=80"/>
+</div>
+<div class="page-hero-content">
+<div>
+<div class="breadcrumb"><a href="index.html">Home</a><span>›</span> New Arrivals</div>
+<h1>New <em>Arrivals</em></h1>
+</div>
+<div class="hero-meta">
+<div class="count">48</div>
+<div class="count-label">Fresh Pieces This Week</div>
+</div>
+</div>
+</div>
+<!-- FILTER BAR -->
+<div class="filter-bar">
+<div class="filter-pills">
+<button class="pill active">All</button>
+<button class="pill">Dresses</button>
+<button class="pill">Tops</button>
+<button class="pill">Sets &amp; Co-ords</button>
+<button class="pill">Blazers</button>
+<button class="pill">Bottoms</button>
+<button class="pill">Jumpsuits</button>
+<button class="pill">Accessories</button>
+<button class="pill">Shoes</button>
+<button class="pill">Under $50</button>
+</div>
+<div class="filter-right">
+<select class="sort-select">
+<option>Sort: Newest First</option>
+<option>Price: Low to High</option>
+<option>Price: High to Low</option>
+<option>Most Popular</option>
+<option>Best Sellers</option>
+</select>
+<div class="grid-toggle">
+<button class="grid-btn active" id="btn3col" title="3 columns">⊞</button>
+<button class="grid-btn" id="btn2col" title="2 columns">▦</button>
+</div>
+</div>
+</div>
+<!-- SHOP LAYOUT -->
+<div class="shop-layout">
+<!-- SIDEBAR -->
+<aside class="sidebar">
+<div class="sidebar-section">
+<div class="sidebar-title">Category <span>+</span></div>
+<div class="filter-option"><input checked="" class="filter-checkbox" type="checkbox"/><label class="filter-label">All New Arrivals</label><span class="filter-count">48</span></div>
+<div class="filter-option"><input class="filter-checkbox" type="checkbox"/><label class="filter-label">Dresses</label><span class="filter-count">12</span></div>
+<div class="filter-option"><input class="filter-checkbox" type="checkbox"/><label class="filter-label">Tops &amp; Blouses</label><span class="filter-count">9</span></div>
+<div class="filter-option"><input class="filter-checkbox" type="checkbox"/><label class="filter-label">Sets &amp; Co-ords</label><span class="filter-count">7</span></div>
+<div class="filter-option"><input class="filter-checkbox" type="checkbox"/><label class="filter-label">Blazers &amp; Jackets</label><span class="filter-count">5</span></div>
+<div class="filter-option"><input class="filter-checkbox" type="checkbox"/><label class="filter-label">Bottoms</label><span class="filter-count">8</span></div>
+<div class="filter-option"><input class="filter-checkbox" type="checkbox"/><label class="filter-label">Accessories</label><span class="filter-count">7</span></div>
+</div>
+<hr class="sidebar-divider"/>
+<div class="sidebar-section">
+<div class="sidebar-title">Price Range <span>+</span></div>
+<div class="price-range"><span>$0</span><span>$250</span></div>
+<input class="range-input" max="250" min="0" type="range" value="150">
+<div class="price-range" style="margin-top:.5rem;"><span style="color:var(--cream)">Up to $150</span></div>
+</input></div>
+<hr class="sidebar-divider"/>
+<div class="sidebar-section">
+<div class="sidebar-title">Size <span>+</span></div>
+<div class="filter-option"><input class="filter-checkbox" type="checkbox"/><label class="filter-label">XS</label></div>
+<div class="filter-option"><input class="filter-checkbox" type="checkbox"/><label class="filter-label">S</label></div>
+<div class="filter-option"><input checked="" class="filter-checkbox" type="checkbox"/><label class="filter-label">M</label></div>
+<div class="filter-option"><input checked="" class="filter-checkbox" type="checkbox"/><label class="filter-label">L</label></div>
+<div class="filter-option"><input class="filter-checkbox" type="checkbox"/><label class="filter-label">XL</label></div>
+<div class="filter-option"><input class="filter-checkbox" type="checkbox"/><label class="filter-label">1X / 2X / 3X</label></div>
+</div>
+<hr class="sidebar-divider"/>
+<div class="sidebar-section">
+<div class="sidebar-title">Color <span>+</span></div>
+<div class="color-swatches">
+<div class="swatch active" style="background:#1a1a1a;" title="Black"></div>
+<div class="swatch" style="background:#fdfaf6;" title="White"></div>
+<div class="swatch" style="background:#c9a7a7;" title="Blush"></div>
+<div class="swatch" style="background:#b8965a;" title="Gold"></div>
+<div class="swatch" style="background:#4a3728;" title="Caramel"></div>
+<div class="swatch" style="background:#6b3a5a;" title="Plum"></div>
+<div class="swatch" style="background:#2d4a3e;" title="Forest"></div>
+<div class="swatch" style="background:#c8b4a0;" title="Nude"></div>
+<div class="swatch" style="background:#8b3a3a;" title="Red"></div>
+<div class="swatch" style="background:#3a4a6b;" title="Navy"></div>
+</div>
+</div>
+<hr class="sidebar-divider"/>
+<button class="clear-btn">Clear All Filters</button>
+</aside>
+<!-- PRODUCT AREA -->
+<div class="product-area">
+<div class="results-bar">
+<span>Showing <strong>48</strong> new styles</span>
+<span>Week of March 2026</span>
+</div>
+<div class="products-grid" id="productsGrid">
+<!-- Row 1 -->
+<div class="product-card reveal">
+<div class="product-img">
+<img alt="Linen Power Blazer" decoding="async" loading="lazy" src="https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=500&amp;q=80"/>
+<div class="product-badge badge-new">New</div>
+<button class="wishlist-btn">♡</button>
+<div class="product-actions"><button>Quick View</button><button>Add to Bag</button></div>
+</div>
+<div class="product-info">
+<div class="product-category">Blazers</div>
+<div class="product-name">Linen Power Blazer Set</div>
+<div class="product-price">$89.00</div>
+<div class="size-dots"><span class="size-dot avail">XS</span><span class="size-dot avail">S</span><span class="size-dot avail">M</span><span class="size-dot">L</span></div>
+</div>
+</div>
+<div class="product-card reveal">
+<div class="product-img">
+<img alt="Silk Wrap Dress" decoding="async" loading="lazy" src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?w=500&amp;q=80"/>
+<div class="product-badge badge-hot">Trending</div>
+<button class="wishlist-btn">♡</button>
+<div class="product-actions"><button>Quick View</button><button>Add to Bag</button></div>
+</div>
+<div class="product-info">
+<div class="product-category">Dresses</div>
+<div class="product-name">Silk Wrap Midi Dress</div>
+<div class="product-price">$112.00 <span class="old">$140.00</span></div>
+<div class="size-dots"><span class="size-dot avail">S</span><span class="size-dot avail">M</span><span class="size-dot avail">L</span><span class="size-dot avail">XL</span></div>
+</div>
+</div>
+<div class="product-card reveal">
+<div class="product-img">
+<img alt="Floral Midi Skirt" decoding="async" loading="lazy" src="https://images.unsplash.com/photo-1572804013309-59a88b7e92f1?w=500&amp;q=80"/>
+<div class="product-badge badge-new">New</div>
+<button class="wishlist-btn">♡</button>
+<div class="product-actions"><button>Quick View</button><button>Add to Bag</button></div>
+</div>
+<div class="product-info">
+<div class="product-category">Bottoms</div>
+<div class="product-name">Floral Midi Skirt</div>
+<div class="product-price">$58.00</div>
+<div class="size-dots"><span class="size-dot avail">XS</span><span class="size-dot avail">S</span><span class="size-dot avail">M</span><span class="size-dot avail">L</span><span class="size-dot avail">XL</span></div>
+</div>
+</div>
+<!-- Row 2 -->
+<div class="product-card reveal">
+<div class="product-img">
+<img alt="Satin Cami Set" decoding="async" loading="lazy" src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=500&amp;q=80"/>
+<div class="product-badge badge-new">New</div>
+<button class="wishlist-btn">♡</button>
+<div class="product-actions"><button>Quick View</button><button>Add to Bag</button></div>
+</div>
+<div class="product-info">
+<div class="product-category">Sets &amp; Co-ords</div>
+<div class="product-name">Satin Cami &amp; Wide-Leg Set</div>
+<div class="product-price">$134.00</div>
+<div class="size-dots"><span class="size-dot avail">S</span><span class="size-dot avail">M</span><span class="size-dot">L</span></div>
+</div>
+</div>
+<div class="product-card reveal">
+<div class="product-img">
+<img alt="Chain Bag" decoding="async" loading="lazy" src="https://images.unsplash.com/photo-1509631179647-0177331693ae?w=500&amp;q=80"/>
+<div class="product-badge badge-hot">Best Seller</div>
+<button class="wishlist-btn">♡</button>
+<div class="product-actions"><button>Quick View</button><button>Add to Bag</button></div>
+</div>
+<div class="product-info">
+<div class="product-category">Accessories</div>
+<div class="product-name">Gold Chain Mini Bag</div>
+<div class="product-price">$65.00</div>
+</div>
+</div>
+<div class="product-card reveal">
+<div class="product-img">
+<img alt="Strappy Heels" decoding="async" loading="lazy" src="https://images.unsplash.com/photo-1551803091-e20673f15770?w=500&amp;q=80"/>
+<div class="product-badge badge-new">New</div>
+<button class="wishlist-btn">♡</button>
+<div class="product-actions"><button>Quick View</button><button>Add to Bag</button></div>
+</div>
+<div class="product-info">
+<div class="product-category">Shoes</div>
+<div class="product-name">Strappy Gold Stiletto</div>
+<div class="product-price">$95.00</div>
+<div class="size-dots"><span class="size-dot avail">6</span><span class="size-dot avail">7</span><span class="size-dot avail">8</span><span class="size-dot avail">9</span><span class="size-dot">10</span></div>
+</div>
+</div>
+<!-- Mid Editorial Banner -->
+<div class="featured-banner reveal">
+<img alt="Editorial" decoding="async" loading="lazy" src="https://images.unsplash.com/photo-1483985988355-763728e1935b?w=1400&amp;q=80"/>
+<div class="featured-banner-content">
+<div>
+<div style="font-size:.62rem;letter-spacing:.4em;text-transform:uppercase;color:var(--gold);margin-bottom:.8rem;">Spring Edit 2026</div>
+<h3>Dress the woman<br/><em>you're becoming</em></h3>
+</div>
+<a class="btn-outline" href="new-arrivals.html">Shop the Edit →</a>
+</div>
+</div>
+<!-- Row 3 -->
+<div class="product-card reveal">
+<div class="product-img">
+<img alt="Ruched Dress" decoding="async" loading="lazy" src="https://images.unsplash.com/photo-1585487000160-6ebcfceb0d03?w=500&amp;q=80"/>
+<div class="product-badge badge-sale">Sale</div>
+<button class="wishlist-btn">♡</button>
+<div class="product-actions"><button>Quick View</button><button>Add to Bag</button></div>
+</div>
+<div class="product-info">
+<div class="product-category">Dresses</div>
+<div class="product-name">Ruched Evening Dress</div>
+<div class="product-price">$78.00 <span class="old">$110.00</span></div>
+<div class="size-dots"><span class="size-dot avail">XS</span><span class="size-dot avail">S</span><span class="size-dot avail">M</span><span class="size-dot avail">L</span><span class="size-dot avail">XL</span><span class="size-dot avail">1X</span></div>
+</div>
+</div>
+<div class="product-card reveal">
+<div class="product-img">
+<img alt="Statement Earrings" decoding="async" loading="lazy" src="https://images.unsplash.com/photo-1492707892479-7bc8d5a4ee93?w=500&amp;q=80"/>
+<div class="product-badge badge-new">New</div>
+<button class="wishlist-btn">♡</button>
+<div class="product-actions"><button>Quick View</button><button>Add to Bag</button></div>
+</div>
+<div class="product-info">
+<div class="product-category">Fashion Jewelry</div>
+<div class="product-name">Drop Crystal Earrings</div>
+<div class="product-price">$38.00</div>
+</div>
+</div>
+<div class="product-card reveal">
+<div class="product-img">
+<img alt="Lace Blouse" decoding="async" loading="lazy" src="https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=500&amp;q=80"/>
+<div class="product-badge badge-new">New</div>
+<button class="wishlist-btn">♡</button>
+<div class="product-actions"><button>Quick View</button><button>Add to Bag</button></div>
+</div>
+<div class="product-info">
+<div class="product-category">Tops</div>
+<div class="product-name">Lace Trim Blouse</div>
+<div class="product-price">$52.00</div>
+<div class="size-dots"><span class="size-dot avail">XS</span><span class="size-dot avail">S</span><span class="size-dot avail">M</span><span class="size-dot avail">L</span></div>
+</div>
+</div>
+</div><!-- /products-grid -->
+<!-- PAGINATION -->
+<div class="pagination reveal">
+<button class="page-btn wide">← Prev</button>
+<button class="page-btn active">1</button>
+<button class="page-btn">2</button>
+<button class="page-btn">3</button>
+<button class="page-btn">4</button>
+<button class="page-btn">…</button>
+<button class="page-btn wide">Next →</button>
+</div>
+</div>
+</div>
+<!-- RECENTLY VIEWED -->
+<div class="recently-viewed">
+<div class="section-tag">Continue Browsing</div>
+<div class="section-title">Recently <em>Viewed</em></div>
+<div class="mini-grid">
+<div class="mini-card reveal">
+<div class="mini-img"><img alt="L'Moni Maison de Mode editorial image" decoding="async" loading="lazy" src="https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=400&amp;q=80"/></div>
+<div class="mini-name">Linen Blazer Set</div>
+<div class="mini-price">$89.00</div>
+</div>
+<div class="mini-card reveal">
+<div class="mini-img"><img alt="L'Moni Maison de Mode editorial image" decoding="async" loading="lazy" src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?w=400&amp;q=80"/></div>
+<div class="mini-name">Silk Wrap Dress</div>
+<div class="mini-price">$112.00</div>
+</div>
+<div class="mini-card reveal">
+<div class="mini-img"><img alt="L'Moni Maison de Mode editorial image" decoding="async" loading="lazy" src="https://images.unsplash.com/photo-1509631179647-0177331693ae?w=400&amp;q=80"/></div>
+<div class="mini-name">Gold Chain Mini Bag</div>
+<div class="mini-price">$65.00</div>
+</div>
+<div class="mini-card reveal">
+<div class="mini-img"><img alt="L'Moni Maison de Mode editorial image" decoding="async" loading="lazy" src="https://images.unsplash.com/photo-1551803091-e20673f15770?w=400&amp;q=80"/></div>
+<div class="mini-name">Strappy Gold Stiletto</div>
+<div class="mini-price">$95.00</div>
+</div>
+<div class="mini-card reveal">
+<div class="mini-img"><img alt="L'Moni Maison de Mode editorial image" decoding="async" loading="lazy" src="https://images.unsplash.com/photo-1572804013309-59a88b7e92f1?w=400&amp;q=80"/></div>
+<div class="mini-name">Floral Midi Skirt</div>
+<div class="mini-price">$58.00</div>
+</div>
+</div>
+</div>
+<!-- FOOTER -->
+<footer>
+<div class="footer-grid">
+<div class="footer-brand">
+<span class="logotype"><em>L'Moni</em> Maison de Mode</span>
+<p>Where Luxury Meets Identity. Luxury fashion, beauty, gifts, and signature accessories curated for the woman who leads with presence and purpose.</p>
+<div class="social-links">
+<a aria-label="Facebook" class="social-link" href="https://www.facebook.com/" rel="noopener noreferrer" target="_blank">f</a>
+<a aria-label="Instagram" class="social-link" href="https://www.instagram.com/" rel="noopener noreferrer" target="_blank">ig</a>
+<a aria-label="X" class="social-link" href="https://x.com/" rel="noopener noreferrer" target="_blank">tw</a>
+<a aria-label="TikTok" class="social-link" href="https://www.tiktok.com/" rel="noopener noreferrer" target="_blank">tk</a>
+</div>
+</div>
+<div class="footer-col"><h4>Shop</h4><ul><li><a href="new-arrivals.html">New Arrivals</a></li><li><a href="ready-to-wear.html">Ready-to-Wear</a></li><li><a href="accessories.html">Accessories</a></li><li><a href="shoes.html">Shoes</a></li><li><a href="sale.html">Sale</a></li></ul></div>
+<div class="footer-col"><h4>Help</h4><ul><li><a href="size-guide.html">Size Guide</a></li><li><a href="shipping-returns.html">Shipping Info</a></li><li><a href="shipping-returns.html#returns">Returns</a></li><li><a href="track-order.html">Track Order</a></li><li><a href="contact.html">Contact Us</a></li></ul></div>
+<div class="footer-col"><h4>The Maison</h4><ul><li><a href="maison-lmoni-about.html">Our Story</a></li><li><a href="muse-wall.html">Muse Wall</a></li><li><a href="giving-back.html">Giving Back</a></li><li><a href="lookbook.html">Lookbook</a></li><li><a href="privacy-policy.html">Privacy Policy</a></li></ul></div>
+</div>
+<div class="footer-bottom">
+<p>© 2026 L'Moni Maison de Mode · Lil'Monii's Enterprise LLC · San Antonio, TX</p>
+<p>Designed for the woman who knows her worth.</p>
+</div>
+</footer>
+<script>
+  // Cursor
+  const cursor=document.getElementById('cursor'),ring=document.getElementById('cursorRing');
+  let mx=0,my=0,rx=0,ry=0;
+  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cursor.style.left=mx+'px';cursor.style.top=my+'px';});
+  function animRing(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animRing);}
+  animRing();
+  document.querySelectorAll('a,button,select').forEach(el=>{
+    el.addEventListener('mouseenter',()=>{cursor.style.width='20px';cursor.style.height='20px';ring.style.width='50px';ring.style.height='50px';ring.style.opacity='.4';});
+    el.addEventListener('mouseleave',()=>{cursor.style.width='10px';cursor.style.height='10px';ring.style.width='36px';ring.style.height='36px';ring.style.opacity='.6';});
+  });
+
+  // Filter pills
+  document.querySelectorAll('.pill').forEach(p=>{
+    p.addEventListener('click',()=>{document.querySelectorAll('.pill').forEach(x=>x.classList.remove('active'));p.classList.add('active');});
+  });
+
+  // Grid toggle
+  const grid=document.getElementById('productsGrid');
+  document.getElementById('btn3col').addEventListener('click',()=>{
+    grid.classList.remove('two-col');
+    document.getElementById('btn3col').classList.add('active');
+    document.getElementById('btn2col').classList.remove('active');
+  });
+  document.getElementById('btn2col').addEventListener('click',()=>{
+    grid.classList.add('two-col');
+    document.getElementById('btn2col').classList.add('active');
+    document.getElementById('btn3col').classList.remove('active');
+  });
+
+  // Scroll reveal
+  const reveals=document.querySelectorAll('.reveal');
+  const obs=new IntersectionObserver(entries=>{
+    entries.forEach((e,i)=>{
+      if(e.isIntersecting){setTimeout(()=>e.target.classList.add('visible'),i*70);obs.unobserve(e.target);}
+    });
+  },{threshold:.08});
+  reveals.forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
