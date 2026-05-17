@@ -39,7 +39,7 @@
     h1 { font-family:'Cormorant Garamond',serif; font-weight:300; font-size:clamp(3rem,6vw,5.4rem); line-height:1; margin-bottom:1rem; color:var(--white); }
     .lede { max-width:760px; color:rgba(245,240,230,.78); font-size:1rem; }
     .cta-row { margin-top:2rem; display:flex; gap:1rem; flex-wrap:wrap; }
-    .btn { text-decoration:none; padding:1rem 1.5rem; display:inline-flex; align-items:center; gap:.7rem; text-transform:uppercase; letter-spacing:.22em; font-size:.72rem; border:1px solid rgba(212,175,55,.35); }
+    .btn { text-decoration:none; padding:1rem 1.5rem; display:inline-flex; align-items:center; gap:.7rem; text-transform:uppercase; letter-spacing:.22em; font-size:.72rem; border:1px solid rgba(212,175,55,.2); }
     .btn.primary { background:var(--gold); color:#111; border-color:var(--gold); font-weight:600; }
     .grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1.2rem; padding:2rem 0 4rem; }
     .card { background:var(--panel); border:1px solid rgba(212,175,55,.15); padding:1.6rem; min-height:220px; display:flex; flex-direction:column; justify-content:space-between; }
@@ -50,12 +50,10 @@
     footer { border-top:1px solid rgba(212,175,55,.15); padding:2rem 0 3rem; color:rgba(245,240,230,.7); }
     footer .foot-top { display:flex; justify-content:space-between; gap:1rem; flex-wrap:wrap; }
     footer p { max-width:680px; }
-    @media (max-width: 760px) { .grid { grid-template-columns:1fr; } .nav { align-items:flex-start; flex-direction:column; padding:1rem 0; } .navlinks { justify-content:flex-start; } .hero { padding-top:4rem; } }
-  
-@media (pointer: coarse) { body, .nav-icon, .mpill, .muse-card, .load-more-btn { cursor: auto !important; } .cursor, .cursor-ring { display: none !important; } }
-html:focus-within { scroll-behavior: smooth; }
+    @media (max-width: 760px) { .grid { grid-template-columns:1fr; } .nav { align-items:flex-start; flex-direction:column; padding:1rem 0; } .navlinks { justify-content:flex-start; } .hero { padding-top:3rem; } }
+    @media (pointer: coarse) { body, .nav-icon, .mpill, .muse-card, .load-more-btn { cursor: auto !important; } .cursor, .cursor-ring { display: none !important; } }
+    html:focus-within { scroll-behavior: smooth; }
 </style>
-<meta content="en_US" property="og:locale"/><link href="https://images.unsplash.com" rel="preconnect"/><meta content="Shipping &amp; Returns — L'Moni Maison de Mode" name="twitter:title"/><meta content="Review shipping, delivery, and return information for L'Moni Maison de Mode orders." name="twitter:description"/></head>
 <body>
 <div class="topbar">Where Luxury Meets Identity.</div>
 <header>
@@ -75,13 +73,13 @@ html:focus-within { scroll-behavior: smooth; }
 <section class="hero">
 <div class="eyebrow">Order Support</div>
 <h1>Shipping &amp; Returns</h1>
-<p class="lede">Orders are typically processed within one to three business days unless otherwise noted. Shipping speeds vary by destination and carrier. Tracking details are sent once an order ships. Returns should be requested within the policy window and items must be unused, unwashed, and returned in original condition with all packaging where applicable. Final sale, personalized, and limited-edition items may not be eligible for return.</p>
+<p class="lede">Orders are typically processed within one to three business days unless otherwise noted. Shipping speeds vary by destination and carrier. Tracking details are sent once an order ships.</p>
 <div class="cta-row">
 <a class="btn primary" href="new-arrivals.html">Shop the Edit</a>
 <a class="btn" href="maison-lmoni-about.html">About the Maison</a>
 </div>
 </section>
-<section class="grid"><article class="card"><div><small>L'Moni Maison de Mode</small><h2>Shipping Window</h2><p>Processing generally begins within one to three business days.</p></div><a href="#">Open page →</a></article><article class="card"><div><small>L'Moni Maison de Mode</small><h2>Tracking</h2><p>Order updates are available after fulfillment.</p></div><a href="track-order.html">Open page →</a></article><article class="card"><div><small>L'Moni Maison de Mode</small><h2>Returns</h2><p>Eligible items must be returned in original condition.</p></div><a href="#returns">Open page →</a></article><article class="card"><div><small>L'Moni Maison de Mode</small><h2>Support</h2><p>Need help with an order? Contact the maison.</p></div><a href="contact.html">Open page →</a></article></section>
+<section class="grid"><article class="card"><div><small>L'Moni Maison de Mode</small><h2>Shipping Window</h2><p>Processing generally begins within one to three business days.</p></div><a href="#">Open page →</a></article><article class="card"><div><small>L'Moni Maison de Mode</small><h2>Return Policy</h2><p>Review return guidelines and shipping information.</p></div><a href="#">Open page →</a></article></section>
 </main>
 <footer>
 <div class="wrap foot-top">

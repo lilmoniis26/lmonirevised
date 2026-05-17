@@ -39,7 +39,7 @@
     h1 { font-family:'Cormorant Garamond',serif; font-weight:300; font-size:clamp(3rem,6vw,5.4rem); line-height:1; margin-bottom:1rem; color:var(--white); }
     .lede { max-width:760px; color:rgba(245,240,230,.78); font-size:1rem; }
     .cta-row { margin-top:2rem; display:flex; gap:1rem; flex-wrap:wrap; }
-    .btn { text-decoration:none; padding:1rem 1.5rem; display:inline-flex; align-items:center; gap:.7rem; text-transform:uppercase; letter-spacing:.22em; font-size:.72rem; border:1px solid rgba(212,175,55,.35); }
+    .btn { text-decoration:none; padding:1rem 1.5rem; display:inline-flex; align-items:center; gap:.7rem; text-transform:uppercase; letter-spacing:.22em; font-size:.72rem; border:1px solid rgba(212,175,55,.2); }
     .btn.primary { background:var(--gold); color:#111; border-color:var(--gold); font-weight:600; }
     .grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1.2rem; padding:2rem 0 4rem; }
     .card { background:var(--panel); border:1px solid rgba(212,175,55,.15); padding:1.6rem; min-height:220px; display:flex; flex-direction:column; justify-content:space-between; }
@@ -50,12 +50,10 @@
     footer { border-top:1px solid rgba(212,175,55,.15); padding:2rem 0 3rem; color:rgba(245,240,230,.7); }
     footer .foot-top { display:flex; justify-content:space-between; gap:1rem; flex-wrap:wrap; }
     footer p { max-width:680px; }
-    @media (max-width: 760px) { .grid { grid-template-columns:1fr; } .nav { align-items:flex-start; flex-direction:column; padding:1rem 0; } .navlinks { justify-content:flex-start; } .hero { padding-top:4rem; } }
-  
-@media (pointer: coarse) { body, .nav-icon, .mpill, .muse-card, .load-more-btn { cursor: auto !important; } .cursor, .cursor-ring { display: none !important; } }
-html:focus-within { scroll-behavior: smooth; }
+    @media (max-width: 760px) { .grid { grid-template-columns:1fr; } .nav { align-items:flex-start; flex-direction:column; padding:1rem 0; } .navlinks { justify-content:flex-start; } .hero { padding-top:3rem; } }
+    @media (pointer: coarse) { body, .nav-icon, .mpill, .muse-card, .load-more-btn { cursor: auto !important; } .cursor, .cursor-ring { display: none !important; } }
+    html:focus-within { scroll-behavior: smooth; }
 </style>
-<meta content="en_US" property="og:locale"/><link href="https://images.unsplash.com" rel="preconnect"/><meta content="Style Notes — L'Moni Maison de Mode" name="twitter:title"/><meta content="Read brand notes, styling insight, and editorial fashion inspiration from L'Moni Maison de Mode." name="twitter:description"/></head>
 <body>
 <div class="topbar">Where Luxury Meets Identity.</div>
 <header>
@@ -75,13 +73,13 @@ html:focus-within { scroll-behavior: smooth; }
 <section class="hero">
 <div class="eyebrow">Editorial Perspective</div>
 <h1>Style Notes</h1>
-<p class="lede">Style Notes is the journal space for founder insight, wardrobe direction, gifting ideas, and brand storytelling. Publish updates here whenever you want to share inspiration, campaigns, behind-the-scenes notes, or seasonal edits.</p>
+<p class="lede">Style Notes is the journal space for founder insight, wardrobe direction, gifting ideas, and brand storytelling. Publish updates here whenever you want to share inspiration, campaigns, or editorial voice.</p>
 <div class="cta-row">
 <a class="btn primary" href="new-arrivals.html">Shop the Edit</a>
 <a class="btn" href="maison-lmoni-about.html">About the Maison</a>
 </div>
 </section>
-<section class="grid"><article class="card"><div><small>L'Moni Maison de Mode</small><h2>Our Story</h2><p>Read the brand origin and mission.</p></div><a href="maison-lmoni-about.html">Open page →</a></article><article class="card"><div><small>L'Moni Maison de Mode</small><h2>New Arrivals</h2><p>Explore what is new this season.</p></div><a href="new-arrivals.html">Open page →</a></article><article class="card"><div><small>L'Moni Maison de Mode</small><h2>Lookbook</h2><p>View the visual edit.</p></div><a href="lookbook.html">Open page →</a></article><article class="card"><div><small>L'Moni Maison de Mode</small><h2>Giving Back</h2><p>See community-centered brand impact.</p></div><a href="giving-back.html">Open page →</a></article></section>
+<section class="grid"><article class="card"><div><small>L'Moni Maison de Mode</small><h2>Our Story</h2><p>Read the brand origin and mission.</p></div><a href="maison-lmoni-about.html">Open page →</a></article><article class="card"><div><small>L'Moni Maison de Mode</small><h2>Lookbook</h2><p>View the curated collection and styling inspiration.</p></div><a href="lookbook.html">Open page →</a></article></section>
 </main>
 <footer>
 <div class="wrap foot-top">
